@@ -98,17 +98,18 @@
             75% { transform: translateY(20px) rotate(270deg); }
         }
 
-        /* Navigation */
+        /* Enhanced Navigation Header */
         nav {
             position: fixed;
             top: 0;
             width: 100%;
             padding: 20px 40px;
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--glass-border);
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.95), rgba(37, 211, 102, 0.1));
+            backdrop-filter: blur(25px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             z-index: 1000;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
         .nav-container {
@@ -122,127 +123,224 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 12px;
-            font-size: 1.5rem;
-            font-weight: 800;
+            gap: 15px;
+            font-size: 1.8rem;
+            font-weight: 900;
             color: white;
             text-decoration: none;
-            transition: transform 0.3s ease;
-        }
-
-        .logo:hover {
-            transform: scale(1.05);
-        }
-
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 30px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
             transition: all 0.3s ease;
             position: relative;
         }
 
-        .nav-links a::after {
+        .logo::before {
             content: '';
             position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
             bottom: -5px;
-            left: 0;
+            background: linear-gradient(45deg, var(--primary), var(--accent), var(--secondary));
+            border-radius: 20px;
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+            filter: blur(10px);
+        }
+
+        .logo:hover::before {
+            opacity: 0.7;
+        }
+
+        .logo:hover {
+            transform: scale(1.05) translateY(-2px);
+            text-shadow: 0 0 20px rgba(37, 211, 102, 0.5);
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: logoShine 3s infinite;
+        }
+
+        @keyframes logoShine {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 35px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
             width: 0;
             height: 2px;
-            background: var(--primary);
-            transition: width 0.3s ease;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
         }
 
-        .nav-links a:hover::after {
-            width: 100%;
+        .nav-links a:hover::before {
+            width: 80%;
         }
 
-        /* Hero Section */
+        .nav-links a:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Enhanced Hero Section */
         .hero {
             padding: 140px 40px 80px;
             text-align: center;
             position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
         }
 
         .hero-content {
             max-width: 900px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
         .hero-badge {
             display: inline-block;
-            padding: 8px 20px;
-            background: var(--glass);
+            padding: 12px 24px;
+            background: linear-gradient(135deg, rgba(37, 211, 102, 0.2), rgba(240, 147, 251, 0.2));
             backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 50px;
             color: white;
             font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-            animation: slideInDown 0.8s ease-out;
+            font-weight: 700;
+            margin-bottom: 30px;
+            animation: heroBadgeFloat 3s ease-in-out infinite;
+            box-shadow: 0 8px 32px rgba(37, 211, 102, 0.2);
+        }
+
+        @keyframes heroBadgeFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         .hero h1 {
-            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-size: clamp(3rem, 10vw, 6rem);
             font-weight: 900;
-            color: white;
-            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ffffff, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 30px;
             line-height: 1.1;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            animation: slideInUp 0.8s ease-out;
+            text-shadow: 0 0 40px rgba(255,255,255,0.3);
+            animation: heroGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes heroGlow {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.2); }
         }
 
         .hero-subtitle {
-            font-size: 1.3rem;
-            color: rgba(255,255,255,0.9);
-            margin-bottom: 40px;
+            font-size: 1.4rem;
+            color: rgba(255,255,255,0.95);
+            margin-bottom: 50px;
             font-weight: 400;
-            animation: slideInUp 0.8s ease-out 0.2s both;
+            line-height: 1.6;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
 
         .hero-stats {
             display: flex;
             justify-content: center;
-            gap: 60px;
+            gap: 80px;
             margin-top: 60px;
-            animation: slideInUp 0.8s ease-out 0.4s both;
+            flex-wrap: wrap;
         }
 
         .stat-item {
             text-align: center;
             color: white;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+            min-width: 150px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.15);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
         }
 
         .stat-number {
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: 900;
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .stat-label {
             font-size: 1rem;
-            opacity: 0.8;
-            font-weight: 500;
+            opacity: 0.9;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         /* Main Container */
@@ -1152,54 +1250,76 @@
         let downloads = 0;
         let bulkGenerated = 0;
 
-        // Initialize animations
-        document.addEventListener('DOMContentLoaded', function() {
-            // GSAP animations
-            gsap.from(".hero-badge", { duration: 1, y: -50, opacity: 0, ease: "power3.out" });
-            gsap.from(".hero h1", { duration: 1.2, y: 50, opacity: 0, ease: "power3.out", delay: 0.2 });
-            gsap.from(".hero-subtitle", { duration: 1, y: 30, opacity: 0, ease: "power3.out", delay: 0.4 });
-            gsap.from(".hero-stats", { duration: 1, y: 30, opacity: 0, ease: "power3.out", delay: 0.6 });
-            gsap.from(".glass-card", { duration: 1, y: 50, opacity: 0, ease: "power3.out", delay: 0.8, stagger: 0.2 });
+        // Initialize with loading check
+        window.addEventListener('load', function() {
+            // Wait for all scripts to load
+            setTimeout(() => {
+                console.log('QRFlow Pro initializing...');
+                
+                // Check if required libraries are loaded
+                if (typeof QRCode === 'undefined') {
+                    console.error('QRCode library not loaded');
+                    showNotification('Loading QR library...', 'info');
+                    return;
+                }
+                
+                if (typeof gsap === 'undefined') {
+                    console.error('GSAP library not loaded');
+                } else {
+                    // GSAP animations
+                    gsap.from(".hero-badge", { duration: 1, y: -50, opacity: 0, ease: "power3.out" });
+                    gsap.from(".hero h1", { duration: 1.2, y: 50, opacity: 0, ease: "power3.out", delay: 0.2 });
+                    gsap.from(".hero-subtitle", { duration: 1, y: 30, opacity: 0, ease: "power3.out", delay: 0.4 });
+                    gsap.from(".hero-stats", { duration: 1, y: 30, opacity: 0, ease: "power3.out", delay: 0.6 });
+                    gsap.from(".glass-card", { duration: 1, y: 50, opacity: 0, ease: "power3.out", delay: 0.8, stagger: 0.2 });
+                }
 
-            // Smooth scrolling for navigation
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                // Smooth scrolling for navigation
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const target = document.querySelector(this.getAttribute('href'));
+                        if (target) {
+                            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    });
+                });
+
+                // Navbar scroll effect
+                window.addEventListener('scroll', function() {
+                    const navbar = document.getElementById('navbar');
+                    if (window.scrollY > 50) {
+                        navbar.style.background = 'linear-gradient(135deg, rgba(26, 26, 46, 0.98), rgba(37, 211, 102, 0.15))';
+                        navbar.style.backdropFilter = 'blur(30px)';
+                        navbar.style.boxShadow = '0 15px 40px rgba(0,0,0,0.2)';
+                    } else {
+                        navbar.style.background = 'linear-gradient(135deg, rgba(26, 26, 46, 0.95), rgba(37, 211, 102, 0.1))';
+                        navbar.style.backdropFilter = 'blur(25px)';
+                        navbar.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)';
                     }
                 });
-            });
 
-            // Navbar scroll effect
-            window.addEventListener('scroll', function() {
-                const navbar = document.getElementById('navbar');
-                if (window.scrollY > 50) {
-                    navbar.style.background = 'rgba(26, 26, 46, 0.95)';
-                    navbar.style.backdropFilter = 'blur(20px)';
-                } else {
-                    navbar.style.background = 'var(--glass)';
-                }
-            });
+                // Color input updates
+                document.getElementById('qrColor').addEventListener('input', (e) => {
+                    document.getElementById('qrColorHex').textContent = e.target.value;
+                });
 
-            // Color input updates
-            document.getElementById('qrColor').addEventListener('input', (e) => {
-                document.getElementById('qrColorHex').textContent = e.target.value;
-            });
+                document.getElementById('bgColor').addEventListener('input', (e) => {
+                    document.getElementById('bgColorHex').textContent = e.target.value;
+                });
 
-            document.getElementById('bgColor').addEventListener('input', (e) => {
-                document.getElementById('bgColorHex').textContent = e.target.value;
-            });
+                // Form submission
+                document.getElementById('qrForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    generateQRCode();
+                });
 
-            // Form submission
-            document.getElementById('qrForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                generateQRCode();
-            });
-
-            // Generate initial QR code
-            generateQRCode();
+                // Generate initial QR code after delay
+                setTimeout(() => {
+                    generateQRCode();
+                    console.log('QRFlow Pro fully loaded');
+                }, 1000);
+            }, 500);
         });
 
         function generateQRCode() {
