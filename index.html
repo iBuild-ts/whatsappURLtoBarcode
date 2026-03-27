@@ -32,7 +32,7 @@
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space Grotesk:wght@300;400;500;600;700&family=JetBrains Mono:wght@400;500;600&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -56,12 +56,12 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #25D366 75%, #128C7E 100%);
             background-size: 400% 400%;
             animation: gradientShift 15s ease infinite;
             min-height: 100vh;
-            color: #333;
+            color: #ffffff;
             overflow-x: hidden;
             position: relative;
         }
@@ -352,11 +352,12 @@
 
         .hero-subtitle {
             font-size: 1.4rem;
-            color: rgba(255,255,255,0.95);
+            color: #ffffff;
             margin-bottom: 50px;
-            font-weight: 400;
+            font-weight: 500;
             line-height: 1.6;
             text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            letter-spacing: 0.3px;
         }
 
         .hero-stats {
@@ -398,7 +399,7 @@
 
         .stat-label {
             font-size: 1rem;
-            opacity: 0.9;
+            color: #ffffff;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -467,7 +468,8 @@
         .card-title {
             font-size: 1.8rem;
             font-weight: 700;
-            color: white;
+            color: #ffffff;
+            letter-spacing: 0.5px;
         }
 
         /* Analytics Dashboard */
@@ -513,8 +515,9 @@
 
         .analytics-label {
             font-size: 0.9rem;
-            opacity: 0.8;
-            font-weight: 500;
+            color: #ffffff;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
         /* Form Elements */
@@ -526,20 +529,23 @@
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            color: rgba(255,255,255,0.9);
-            font-size: 0.95rem;
+            color: #ffffff;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
         }
 
         input, textarea, select {
             width: 100%;
             padding: 16px 20px;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.15);
+            border: 2px solid rgba(255,255,255,0.3);
             border-radius: 16px;
             font-size: 1rem;
-            color: white;
+            color: #ffffff;
+            font-weight: 500;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
+            font-family: 'Space Grotesk', sans-serif;
         }
 
         input::placeholder, textarea::placeholder {
@@ -708,8 +714,9 @@
 
         .stat-card .label {
             font-size: 0.9rem;
-            opacity: 0.8;
-            font-weight: 500;
+            color: #ffffff;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
         /* File Upload */
@@ -944,6 +951,47 @@
         .notification.success { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); }
         .notification.error { background: linear-gradient(135deg, #dc3545, #c82333); }
         .notification.info { background: linear-gradient(135deg, #17a2b8, #138496); }
+
+        /* Rating Buttons */
+        .rating-btn {
+            padding: 15px 20px;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 16px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            min-width: 100px;
+        }
+
+        .rating-btn:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.3);
+        }
+
+        .rating-btn.selected {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-color: var(--primary);
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+        }
+
+        .rating-btn i {
+            font-size: 1.5rem;
+        }
+
+        .rating-btn span {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
 
         /* Hidden Class */
         .hidden {
@@ -1283,6 +1331,45 @@
                 </button>
             </div>
 
+            <!-- Feedback Section -->
+            <div class="feedback-section hidden" id="feedbackSection" style="margin-top: 30px; padding: 25px; background: rgba(255,255,255,0.05); border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);">
+                <h3 style="color: white; margin-bottom: 15px;">
+                    <i class="fas fa-star"></i> Rate Your Experience
+                </h3>
+                <p style="color: rgba(255,255,255,0.8); margin-bottom: 20px;">How was your QR code generation experience?</p>
+                
+                <div class="rating-container" style="display: flex; justify-content: center; gap: 15px; margin-bottom: 20px;">
+                    <button class="rating-btn" data-rating="1" onclick="submitRating(1)">
+                        <i class="fas fa-frown"></i>
+                        <span>Poor</span>
+                    </button>
+                    <button class="rating-btn" data-rating="2" onclick="submitRating(2)">
+                        <i class="fas fa-meh"></i>
+                        <span>Fair</span>
+                    </button>
+                    <button class="rating-btn" data-rating="3" onclick="submitRating(3)">
+                        <i class="fas fa-smile"></i>
+                        <span>Good</span>
+                    </button>
+                    <button class="rating-btn" data-rating="4" onclick="submitRating(4)">
+                        <i class="fas fa-laugh"></i>
+                        <span>Great</span>
+                    </button>
+                    <button class="rating-btn" data-rating="5" onclick="submitRating(5)">
+                        <i class="fas fa-heart"></i>
+                        <span>Excellent</span>
+                    </button>
+                </div>
+                
+                <div class="feedback-comment" style="margin-bottom: 15px;">
+                    <textarea id="feedbackComment" placeholder="Tell us more about your experience (optional)" style="width: 100%; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; color: white; resize: vertical; min-height: 80px;"></textarea>
+                </div>
+                
+                <button onclick="submitFeedback()" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-paper-plane"></i> Submit Feedback
+                </button>
+            </div>
+
             <!-- Features Info -->
             <div style="margin-top: 30px; padding: 25px; background: rgba(255,255,255,0.05); border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);">
                 <h3 style="color: white; margin-bottom: 15px;">
@@ -1337,6 +1424,8 @@
         let sessionStartTime = Date.now();
         let liveUsers = 1;
         let totalSessions = parseInt(localStorage.getItem('totalSessions') || '0') + 1;
+        let selectedRating = 0;
+        let feedbackSubmitted = false;
 
         // Analytics tracking
         class AnalyticsTracker {
@@ -1656,6 +1745,9 @@
                 document.getElementById('exportOptions').classList.remove('hidden');
                 document.getElementById('socialShare').classList.remove('hidden');
                 
+                // Show feedback section
+                document.getElementById('feedbackSection').classList.remove('hidden');
+                
                 // Update statistics
                 qrGenerated++;
                 updateStats();
@@ -1866,6 +1958,68 @@
             const text = 'Check out QRFlow Pro - Advanced WhatsApp QR Generator! Professional features, 100% free.';
             window.open(`https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`, '_blank');
             analytics.trackEvent('social_share', { platform: 'whatsapp' });
+        }
+
+        function submitRating(rating) {
+            selectedRating = rating;
+            
+            // Update UI
+            document.querySelectorAll('.rating-btn').forEach(btn => {
+                btn.classList.remove('selected');
+                if (parseInt(btn.dataset.rating) === rating) {
+                    btn.classList.add('selected');
+                }
+            });
+            
+            // Track rating selection
+            analytics.trackEvent('rating_selected', { rating: rating });
+        }
+
+        function submitFeedback() {
+            if (selectedRating === 0) {
+                showNotification('Please select a rating first', 'error');
+                return;
+            }
+            
+            if (feedbackSubmitted) {
+                showNotification('You have already submitted feedback', 'info');
+                return;
+            }
+            
+            const comment = document.getElementById('feedbackComment').value.trim();
+            
+            // Track feedback submission
+            analytics.trackEvent('feedback_submitted', {
+                rating: selectedRating,
+                hasComment: !!comment,
+                commentLength: comment.length
+            });
+            
+            // Store feedback in localStorage
+            const feedbackData = {
+                rating: selectedRating,
+                comment: comment,
+                timestamp: Date.now(),
+                sessionId: analytics.getSessionId(),
+                userAgent: navigator.userAgent,
+                qrGenerated: qrGenerated
+            };
+            
+            let feedbacks = JSON.parse(localStorage.getItem('feedbacks') || '[]');
+            feedbacks.push(feedbackData);
+            localStorage.setItem('feedbacks', JSON.stringify(feedbacks));
+            
+            // Update UI
+            feedbackSubmitted = true;
+            document.getElementById('feedbackSection').innerHTML = `
+                <div style="text-align: center; padding: 30px;">
+                    <i class="fas fa-heart" style="font-size: 3rem; color: var(--primary); margin-bottom: 15px;"></i>
+                    <h3 style="color: white; margin-bottom: 10px;">Thank You!</h3>
+                    <p style="color: rgba(255,255,255,0.8);">Your feedback helps us improve QRFlow Pro</p>
+                </div>
+            `;
+            
+            showNotification('Thank you for your feedback! 🎉', 'success');
         }
 
         function showNotification(message, type) {
