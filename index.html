@@ -513,7 +513,8 @@
             </div>
 
             <div class="feature-tabs">
-                <button class="tab-btn active" onclick="switchTab('ai')">🤖 AI</button>
+                <button class="tab-btn active" onclick="switchTab('message')">💬 Message</button>
+                <button class="tab-btn" onclick="switchTab('ai')">🤖 AI</button>
                 <button class="tab-btn" onclick="switchTab('global')">🌐 Global</button>
                 <button class="tab-btn" onclick="switchTab('mobile')">📱 Mobile</button>
                 <button class="tab-btn" onclick="switchTab('blockchain')">🔗 Web3</button>
@@ -523,8 +524,60 @@
                 <button class="tab-btn" onclick="switchTab('bi')">📊 BI 2.0</button>
             </div>
 
+            <!-- Secret Message Tab -->
+            <div id="message-tab" class="tab-content active">
+                <form id="messageForm">
+                    <div class="form-group">
+                        <label>💬 Your Secret Message</label>
+                        <textarea id="secretMessage" placeholder="Type your anonymous message here... This will be embedded in the QR code and can be read when scanned." rows="4" maxlength="500"></textarea>
+                        <small style="color: rgba(255,255,255,0.7); font-size: 0.85rem; margin-top: 5px; display: block;">
+                            <span id="charCount">0</span>/500 characters
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label>🎨 Message Type</label>
+                        <select id="messageType">
+                            <option value="secret">🔒 Secret Message</option>
+                            <option value="note">📝 Personal Note</option>
+                            <option value="quote">💭 Inspiration Quote</option>
+                            <option value="joke">😄 Joke</option>
+                            <option value="poem">📜 Poem</option>
+                            <option value="confession">💭 Confession</option>
+                            <option value="compliment">💝 Compliment</option>
+                            <option value="anonymous">🎭 Anonymous Tip</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>🔐 Privacy Level</label>
+                        <select id="privacyLevel">
+                            <option value="public">🌍 Public (Anyone can read)</option>
+                            <option value="friends">👥 Friends Only</option>
+                            <option value="private">🔒 Private (Password protected)</option>
+                            <option value="selfdestruct">💣 Self-destruct (Read once)</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="passwordGroup" style="display: none;">
+                        <label>🔑 Password (Optional)</label>
+                        <input type="password" id="messagePassword" placeholder="Enter password to protect your message">
+                    </div>
+                    <div class="form-group">
+                        <label>⏰ Expiration</label>
+                        <select id="messageExpiration">
+                            <option value="never">🔄 Never expires</option>
+                            <option value="1hour">⏰ 1 hour</option>
+                            <option value="24hours">📅 24 hours</option>
+                            <option value="7days">📆 7 days</option>
+                            <option value="30days">📅 30 days</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-envelope-secret"></i> Create Secret Message QR
+                    </button>
+                </form>
+            </div>
+
             <!-- AI Tab -->
-            <div id="ai-tab" class="tab-content active">
+            <div id="ai-tab" class="tab-content">
                 <form id="aiForm">
                     <div class="form-group">
                         <label>🤖 AI Mode</label>
@@ -796,6 +849,10 @@
 
             <div class="analytics-grid">
                 <div class="analytics-item">
+                    <span class="analytics-value" id="messageCount">0</span>
+                    <span class="analytics-label">Secret Messages</span>
+                </div>
+                <div class="analytics-item">
                     <span class="analytics-value" id="aiPredictions">0</span>
                     <span class="analytics-label">AI Predictions</span>
                 </div>
@@ -835,6 +892,7 @@
         // Quantum Analytics System
         class QuantumAnalytics {
             constructor() {
+                this.messageCount = parseInt(localStorage.getItem('totalMessages') || '0');
                 this.aiPredictions = 0;
                 this.globalReach = 0;
                 this.mobileUsers = 0;
@@ -868,6 +926,7 @@
             }
 
             updateDisplay() {
+                document.getElementById('messageCount').textContent = this.messageCount;
                 document.getElementById('aiPredictions').textContent = this.aiPredictions;
                 document.getElementById('globalReach').textContent = this.globalReach;
                 document.getElementById('mobileUsers').textContent = this.mobileUsers;
@@ -1046,7 +1105,7 @@
 
         // Initialize everything
         let quantumAnalytics;
-        let currentTab = 'ai';
+        let currentTab = 'message';
 
         window.addEventListener('load', () => {
             quantumAnalytics = new QuantumAnalytics();
@@ -1071,13 +1130,37 @@
         }
 
         function initializeForms() {
-            const forms = ['aiForm', 'globalForm', 'mobileForm', 'blockchainForm', 'marketingForm', 'securityForm', 'interactiveForm', 'biForm'];
+            const forms = ['messageForm', 'aiForm', 'globalForm', 'mobileForm', 'blockchainForm', 'marketingForm', 'securityForm', 'interactiveForm', 'biForm'];
             
             forms.forEach(formId => {
                 document.getElementById(formId).addEventListener('submit', (e) => {
                     e.preventDefault();
                     handleFormSubmit(formId.replace('Form', ''));
                 });
+            });
+
+            // Initialize message form specific features
+            initializeMessageForm();
+        }
+
+        function initializeMessageForm() {
+            const messageTextarea = document.getElementById('secretMessage');
+            const charCount = document.getElementById('charCount');
+            const privacyLevel = document.getElementById('privacyLevel');
+            const passwordGroup = document.getElementById('passwordGroup');
+
+            // Character counter
+            messageTextarea.addEventListener('input', () => {
+                charCount.textContent = messageTextarea.value.length;
+            });
+
+            // Show/hide password field based on privacy level
+            privacyLevel.addEventListener('change', () => {
+                if (privacyLevel.value === 'private') {
+                    passwordGroup.style.display = 'block';
+                } else {
+                    passwordGroup.style.display = 'none';
+                }
             });
         }
 
@@ -1097,6 +1180,13 @@
             const formData = {};
             
             switch(type) {
+                case 'message':
+                    formData.message = document.getElementById('secretMessage').value;
+                    formData.messageType = document.getElementById('messageType').value;
+                    formData.privacy = document.getElementById('privacyLevel').value;
+                    formData.password = document.getElementById('messagePassword').value;
+                    formData.expiration = document.getElementById('messageExpiration').value;
+                    break;
                 case 'ai':
                     formData.mode = document.getElementById('aiMode').value;
                     formData.purpose = document.getElementById('qrPurpose').value;
@@ -1151,7 +1241,14 @@
             
             // Generate unique quantum URL
             const quantumId = 'qr_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-            const quantumUrl = `${window.location.origin}/quantum/${quantumId}`;
+            let quantumUrl;
+            
+            // Handle secret message QRs differently
+            if (currentTab === 'message') {
+                quantumUrl = createMessageURL(data, quantumId);
+            } else {
+                quantumUrl = `${window.location.origin}/quantum/${quantumId}`;
+            }
             
             // Store quantum data
             localStorage.setItem('quantum_' + quantumId, JSON.stringify({
@@ -1181,9 +1278,45 @@
             }
         }
 
+        function createMessageURL(messageData, quantumId) {
+            // Create a special URL for secret messages
+            const messageURL = `${window.location.origin}/message/${quantumId}`;
+            
+            // Store the message with encryption if needed
+            let encryptedMessage = messageData.message;
+            if (messageData.privacy === 'private' && messageData.password) {
+                encryptedMessage = SecurityEngine.encryptQRData(messageData.message, 'basic') + ':' + messageData.password;
+            }
+            
+            const messagePayload = {
+                id: quantumId,
+                message: encryptedMessage,
+                type: messageData.messageType,
+                privacy: messageData.privacy,
+                expiration: calculateExpiration(messageData.expiration),
+                created: Date.now(),
+                readCount: 0
+            };
+            
+            localStorage.setItem('message_' + quantumId, JSON.stringify(messagePayload));
+            return messageURL;
+        }
+
+        function calculateExpiration(expiration) {
+            const now = Date.now();
+            switch(expiration) {
+                case '1hour': return now + (60 * 60 * 1000);
+                case '24hours': return now + (24 * 60 * 60 * 1000);
+                case '7days': return now + (7 * 24 * 60 * 60 * 1000);
+                case '30days': return now + (30 * 24 * 60 * 60 * 1000);
+                default: return null; // Never expires
+            }
+        }
+
         function getAIOptimizedColors(data, performance) {
             // AI color optimization based on performance and type
             const colorPalettes = {
+                message: { qrColor: '#e74c3c', bgColor: '#ffffff' },
                 ai: { qrColor: '#667eea', bgColor: '#ffffff' },
                 global: { qrColor: '#25D366', bgColor: '#f8f9fa' },
                 mobile: { qrColor: '#4ecdc4', bgColor: '#ffffff' },
@@ -1194,13 +1327,19 @@
                 bi: { qrColor: '#764ba2', bgColor: '#ffffff' }
             };
             
-            return colorPalettes[currentTab] || colorPalettes.ai;
+            return colorPalettes[currentTab] || colorPalettes.message;
         }
 
         function updateAnalytics(type) {
             quantumAnalytics.aiPredictions += Math.floor(Math.random() * 5) + 1;
             
             switch(type) {
+                case 'message':
+                    // Track secret message creation
+                    quantumAnalytics.messageCount++;
+                    localStorage.setItem('totalMessages', quantumAnalytics.messageCount.toString());
+                    quantumAnalytics.conversions = Math.min(95, quantumAnalytics.conversions + 2);
+                    break;
                 case 'global':
                     quantumAnalytics.globalReach += Math.floor(Math.random() * 10) + 5;
                     break;
