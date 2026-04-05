@@ -893,6 +893,111 @@
         </div>
     </main>
 
+    <!-- Footer -->
+    <footer style="
+        background: linear-gradient(135deg, rgba(26, 26, 46, 0.95), rgba(37, 211, 102, 0.1));
+        backdrop-filter: blur(25px);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 40px;
+        text-align: center;
+        margin-top: 80px;
+    ">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px;">
+                <div>
+                    <h4 style="color: white; margin-bottom: 15px; font-size: 1.1rem;">QRFlow Pro Quantum</h4>
+                    <p style="color: rgba(255, 255, 255, 0.8); line-height: 1.6; margin: 0;">
+                        The world's most advanced QR platform with AI-powered features, blockchain integration, and global reach.
+                    </p>
+                </div>
+                <div>
+                    <h4 style="color: white; margin-bottom: 15px; font-size: 1.1rem;">Features</h4>
+                    <ul style="color: rgba(255, 255, 255, 0.8); line-height: 1.8; margin: 0; list-style: none;">
+                        <li style="margin-bottom: 8px;">🤖 AI-Powered QR Generation</li>
+                        <li style="margin-bottom: 8px;">💬 Secret Messages</li>
+                        <li style="margin-bottom: 8px;">🔗 Blockchain Integration</li>
+                        <li style="margin-bottom: 8px;">🌐 Global Reach</li>
+                        <li style="margin-bottom: 8px;">📱 Mobile PWA</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="color: white; margin-bottom: 15px; font-size: 1.1rem;">Quick Links</h4>
+                    <ul style="color: rgba(255, 255, 255, 0.8); line-height: 1.8; margin: 0; list-style: none;">
+                        <li style="margin-bottom: 8px;"><a href="#ai" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">AI Tools</a></li>
+                        <li style="margin-bottom: 8px;"><a href="#global" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">Global Features</a></li>
+                        <li style="margin-bottom: 8px;"><a href="#blockchain" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">Web3 Integration</a></li>
+                        <li style="margin-bottom: 8px;"><a href="#marketing" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">Marketing Tools</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="color: white; margin-bottom: 15px; font-size: 1.1rem;">Connect</h4>
+                    <div style="display: flex; gap: 15px; justify-content: center;">
+                        <a href="#" style="
+                            width: 40px;
+                            height: 40px;
+                            background: rgba(255, 255, 255, 0.1);
+                            border: 1px solid rgba(255, 255, 255, 0.2);
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            color: white;
+                            text-decoration: none;
+                            transition: all 0.3s ease;
+                        " onmouseover="this.style.background='rgba(255, 255, 255, 0.2)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.1)'">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" style="
+                            width: 40px;
+                            height: 40px;
+                            background: rgba(255, 255, 255, 0.1);
+                            border: 1px solid rgba(255, 255, 255, 0.2);
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            color: white;
+                            text-decoration: none;
+                            transition: all 0.3s ease;
+                        " onmouseover="this.style.background='rgba(255, 255, 255, 0.2)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.1)'">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" style="
+                            width: 40px;
+                            height: 40px;
+                            background: rgba(255, 255, 255, 0.1);
+                            border: 1px solid rgba(255, 255, 255, 0.2);
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            color: white;
+                            text-decoration: none;
+                            transition: all 0.3s ease;
+                        " onmouseover="this.style.background='rgba(255, 255, 255, 0.2)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.1)'">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                padding-top: 30px;
+                margin-top: 40px;
+            ">
+                <p style="color: rgba(255, 255, 255, 0.6); margin: 0; font-size: 0.9rem;">
+                    © 2026 QRFlow Pro Quantum. All rights reserved. Made with ❤️ using cutting-edge AI technology.
+                </p>
+                <div style="margin-top: 15px;">
+                    <span style="color: rgba(255, 255, 255, 0.8); font-size: 0.85rem;">
+                        🌍 Global Reach • 🤖 AI-Powered • 🔗 Blockchain Ready • 📱 Mobile Optimized
+                    </span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
     <script>
         // Quantum Analytics System
         class QuantumAnalytics {
@@ -944,9 +1049,9 @@
         // AI/ML Engine
         class AIEngine {
             static async predictPerformance(qrData) {
-                // Simulate ML prediction
+                // Fast performance prediction without ML delay
                 const features = this.extractFeatures(qrData);
-                const prediction = await this.runModel(features);
+                const prediction = this.fastModel(features);
                 return prediction;
             }
 
@@ -964,13 +1069,11 @@
                 return Math.abs(parseInt(color1.slice(1), 16) - parseInt(color2.slice(1), 16)) / 255;
             }
 
-            static async runModel(features) {
-                // Simulate TensorFlow.js model
-                await new Promise(resolve => setTimeout(resolve, 100));
-                const baseScore = 70;
-                const contrastBonus = features.colorContrast * 20;
+            static fastModel(features) {
+                // Fast prediction without TensorFlow.js
+                const baseScore = 75;
                 const complexityBonus = features.complexity === 'H' ? 10 : 5;
-                return Math.min(95, baseScore + contrastBonus + complexityBonus + Math.random() * 10);
+                return Math.min(95, baseScore + complexityBonus + Math.random() * 10);
             }
         }
 
@@ -1176,12 +1279,14 @@
             showNotification(`Generating ${type} QR...`, 'info');
             
             const qrData = collectFormData(type);
-            const performance = await AIEngine.predictPerformance(qrData);
+            
+            // Skip AI prediction for faster generation
+            const performance = type === 'message' ? 85 : await AIEngine.predictPerformance(qrData);
             
             generateQuantumQR(qrData, performance);
             updateAnalytics(type);
             
-            showNotification(`${type.charAt(0).toUpperCase() + type.slice(1)} QR created with ${performance.toFixed(1)}% predicted performance!`, 'success');
+            showNotification(`${type.charAt(0).toUpperCase() + type.slice(1)} QR created successfully!`, 'success');
         }
 
         function collectFormData(type) {
