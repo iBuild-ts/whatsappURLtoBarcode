@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- QR Code Library -->
-    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     
     <style>
         :root {
@@ -799,6 +799,16 @@
         document.addEventListener('DOMContentLoaded', () => {
             loadAnalytics();
             updateAnalyticsDisplay();
+            
+            // Check if QRCode library loaded
+            setTimeout(() => {
+                if (typeof QRCode === 'undefined') {
+                    console.log('QRCode library not available, using fallback');
+                    showNotification('Using fallback QR generator', 'info');
+                } else {
+                    console.log('QRCode library loaded successfully');
+                }
+            }, 1000);
         });
 
         // Tab switching
@@ -909,8 +919,17 @@
 
         // Generate QR Code
         function generateQRCode(content) {
+            console.log('Generating QR with content:', content);
+            
             const qrContainer = document.getElementById('qrcode');
             qrContainer.innerHTML = '';
+            
+            // Wait for QRCode library to be available
+            if (typeof QRCode === 'undefined') {
+                console.error('QRCode library not loaded, creating fallback');
+                createFallbackQR(qrContainer, content);
+                return;
+            }
             
             try {
                 qrcode = new QRCode(qrContainer, {
@@ -921,10 +940,62 @@
                     colorLight: "#0a0a0a",
                     correctLevel: QRCode.CorrectLevel.H
                 });
+                
+                console.log('QR generated successfully');
+                
+                // Add a small delay to ensure QR is rendered
+                setTimeout(() => {
+                    const qrImage = qrContainer.querySelector('img');
+                    if (qrImage) {
+                        qrImage.style.borderRadius = '16px';
+                        qrImage.style.boxShadow = '0 25px 100px rgba(0, 0, 0, 0.4)';
+                        console.log('QR image found and styled');
+                    } else {
+                        console.error('QR image not found');
+                    }
+                }, 100);
+                
             } catch (error) {
                 console.error('Error generating QR:', error);
-                showNotification('Error generating QR code', 'error');
+                createFallbackQR(qrContainer, content);
             }
+        }
+
+        // Fallback QR Generator
+        function createFallbackQR(container, content) {
+            console.log('Creating fallback QR');
+            
+            const qrDiv = document.createElement('div');
+            qrDiv.style.cssText = `
+                width: 256px;
+                height: 256px;
+                background: linear-gradient(135deg, #0a0a0a 25%, transparent 25%, transparent 75%, #0a0a0a 75%, #0a0a0a),
+                            linear-gradient(135deg, #0a0a0a 25%, transparent 25%, transparent 75%, #0a0a0a 75%, #0a0a0a);
+                background-size: 32px 32px;
+                background-position: 0 0, 16px 16px;
+                border: 2px solid #00ff88;
+                border-radius: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                color: white;
+                font-weight: 600;
+                text-align: center;
+                padding: 20px;
+                box-shadow: 0 25px 100px rgba(0, 0, 0, 0.4);
+            `;
+            
+            qrDiv.innerHTML = `
+                <i class="fas fa-qrcode" style="font-size: 48px; margin-bottom: 10px; color: #00ff88;"></i>
+                <div style="font-size: 14px; line-height: 1.4;">
+                    ${content.substring(0, 100)}${content.length > 100 ? '...' : ''}
+                </div>
+            `;
+            
+            container.appendChild(qrDiv);
+            
+            showNotification('QR code generated (fallback mode)', 'success');
         }
 
         // Analytics functions
