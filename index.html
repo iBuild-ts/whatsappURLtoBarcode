@@ -167,33 +167,119 @@
         }
 
         .hero {
-            padding: 140px 40px 80px;
             text-align: center;
+            padding: 100px 20px;
             position: relative;
+            background: linear-gradient(135deg, rgba(0,0,0,0.3), rgba(0,0,0,0.1));
+            backdrop-filter: blur(20px);
+            border-radius: 0 0 40px 40px;
+            overflow: hidden;
         }
 
-        .hero h1 {
-            font-size: clamp(3rem, 10vw, 6rem);
-            font-weight: 900;
-            background: linear-gradient(135deg, #ffffff, var(--primary), var(--accent));
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            animation: float 20s linear infinite;
+            opacity: 0.3;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 50%, #ffffff 100%);
+            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 20px;
             line-height: 1.1;
-            animation: heroGlow 4s ease-in-out infinite;
-        }
-
-        @keyframes heroGlow {
-            0%, 100% { filter: brightness(1); }
-            50% { filter: brightness(1.2); }
+            letter-spacing: -0.02em;
+            text-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 1;
         }
 
         .hero-subtitle {
-            font-size: 1.4rem;
-            color: #ffffff;
-            margin-bottom: 40px;
-            font-weight: 500;
-            letter-spacing: 0.3px;
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 50px;
+            font-weight: 400;
+            line-height: 1.6;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+            letter-spacing: 0.02em;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            border-color: rgba(255,255,255,0.4);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #ffffff, #e0e0e0);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.8);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .main-container {
@@ -286,6 +372,17 @@
         .tab-content.active {
             display: block;
             animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.9; }
         }
 
         @keyframes fadeIn {
@@ -1352,19 +1449,45 @@
             document.getElementById('qrPlaceholder').classList.add('hidden');
             qrContainer.classList.remove('hidden');
             
-            // Generate unique quantum URL
+            // Generate unique quantum ID
             const quantumId = 'qr_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-            let quantumUrl;
+            let qrContent;
             
-            // Handle secret message QRs differently
-            if (currentTab === 'message') {
-                quantumUrl = createMessageURL(data, quantumId);
-            } else {
-                quantumUrl = `${window.location.origin}/quantum/${quantumId}`;
+            // Handle different QR types with actual content
+            switch(currentTab) {
+                case 'message':
+                    qrContent = createMessageContent(data, quantumId);
+                    break;
+                case 'ai':
+                    qrContent = createAIContent(data);
+                    break;
+                case 'global':
+                    qrContent = createGlobalContent(data);
+                    break;
+                case 'mobile':
+                    qrContent = createMobileContent(data);
+                    break;
+                case 'blockchain':
+                    qrContent = createBlockchainContent(data);
+                    break;
+                case 'marketing':
+                    qrContent = createMarketingContent(data);
+                    break;
+                case 'security':
+                    qrContent = createSecurityContent(data);
+                    break;
+                case 'interactive':
+                    qrContent = createInteractiveContent(data);
+                    break;
+                case 'bi':
+                    qrContent = createBIContent(data);
+                    break;
+                default:
+                    qrContent = `${window.location.origin}?view_qr=${quantumId}`;
             }
             
-            // Store quantum data
-            localStorage.setItem('quantum_' + quantumId, JSON.stringify({
+            // Store QR data for tracking
+            localStorage.setItem('qr_' + quantumId, JSON.stringify({
                 data: data,
                 performance: performance,
                 timestamp: Date.now(),
@@ -1376,7 +1499,7 @@
             
             try {
                 new QRCode(qrContainer, {
-                    text: quantumUrl,
+                    text: qrContent,
                     width: 512,
                     height: 512,
                     colorDark: aiColors.qrColor,
@@ -1384,11 +1507,56 @@
                     correctLevel: QRCode.CorrectLevel.H
                 });
                 
-                console.log('Quantum QR generated with performance:', performance);
+                console.log('QR generated with content:', qrContent);
             } catch (error) {
-                console.error('Error generating Quantum QR:', error);
+                console.error('Error generating QR:', error);
                 showNotification('Error generating QR code', 'error');
             }
+        }
+
+        function createMessageContent(data, quantumId) {
+            // Create actual message content for QR
+            let messageContent = `🔒 SECRET MESSAGE\n━━━━━━━━━━━━━━━━━━\n\n${data.message}\n\n━━━━━━━━━━━━━━━━━━\nType: ${data.messageType}\nPrivacy: ${data.privacy}`;
+            
+            if (data.expiration !== 'never') {
+                messageContent += `\nExpires: ${data.expiration}`;
+            }
+            
+            messageContent += `\n\n📱 Created with QRFlow Pro\nCreate your own at: ${window.location.origin}`;
+            
+            return messageContent;
+        }
+
+        function createAIContent(data) {
+            return `🤖 AI-ENHANCED QR\n━━━━━━━━━━━━━━━━━━\n\nMode: ${data.mode}\nPurpose: ${data.purpose}\nTarget Performance: ${data.targetPerformance}%\n\n📱 Created with QRFlow Pro\nTry AI features at: ${window.location.origin}`;
+        }
+
+        function createGlobalContent(data) {
+            return `🌍 GLOBAL QR\n━━━━━━━━━━━━━━━━━━\n\nLanguage: ${data.language}\nCurrency: ${data.currency}\nRegion: ${data.region}\n\n📱 Created with QRFlow Pro\nGo global at: ${window.location.origin}`;
+        }
+
+        function createMobileContent(data) {
+            return `📱 MOBILE QR\n━━━━━━━━━━━━━━━━━━\n\nTemplate: ${data.template}\nCamera: ${data.camera}\nNotifications: ${data.notifications}\n\n📱 Created with QRFlow Pro\nMobile optimized at: ${window.location.origin}`;
+        }
+
+        function createBlockchainContent(data) {
+            return `🔗 BLOCKCHAIN QR\n━━━━━━━━━━━━━━━━━━\n\nType: ${data.web3Type}\nBlockchain: ${data.blockchain}\nContract: ${data.contract}\n\n📱 Created with QRFlow Pro\nWeb3 ready at: ${window.location.origin}`;
+        }
+
+        function createMarketingContent(data) {
+            return `📈 MARKETING QR\n━━━━━━━━━━━━━━━━━━\n\nCampaign: ${data.campaign}\nGoal: ${data.conversion}\nPixel: ${data.pixel}\n\n📱 Created with QRFlow Pro\nBoost marketing at: ${window.location.origin}`;
+        }
+
+        function createSecurityContent(data) {
+            return `🔐 SECURITY QR\n━━━━━━━━━━━━━━━━━━\n\nLevel: ${data.security}\nCompliance: ${data.compliance}\nAccess: ${data.access}\n\n📱 Created with QRFlow Pro\nEnterprise security at: ${window.location.origin}`;
+        }
+
+        function createInteractiveContent(data) {
+            return `🎮 INTERACTIVE QR\n━━━━━━━━━━━━━━━━━━\n\nType: ${data.interactive}\nMedia: ${data.media}\nLevel: ${data.level}\n\n📱 Created with QRFlow Pro\nInteractive at: ${window.location.origin}`;
+        }
+
+        function createBIContent(data) {
+            return `📊 BUSINESS INTEL QR\n━━━━━━━━━━━━━━━━━━\n\nFocus: ${data.focus}\nKPI: ${data.kpi}\nReports: ${data.frequency}\n\n📱 Created with QRFlow Pro\nData insights at: ${window.location.origin}`;
         }
 
         function createMessageURL(messageData, quantumId) {
