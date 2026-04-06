@@ -3,91 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QRFlow Pro Quantum - Ultimate AI-Powered QR Platform</title>
+    <title>QRFlow Pro - Revolutionary QR Platform</title>
     
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiUVJGbG93IFBybyBRdWFudHVtIiwic2hvcnRfbmFtZSI6IlFSUHJvIiwic3RhcnRfdXJsIjoiLyIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMyNURBNjYiLCJ0aGVtZV9jb2xvciI6IiNmZmZmZmYiLCJvcmllbnRhdGlvbiI6InBvcnRyYWl0In0=">
-    <meta name="theme-color" content="#25D366">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'GA_MEASUREMENT_ID');
-    </script>
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- External Libraries -->
+    <!-- QR Code Library -->
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
-    <script src="https://cdn.jsdelivr.net/npm/opencv.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --primary: #25D366;
-            --primary-dark: #128C7E;
-            --secondary: #667eea;
-            --accent: #f093fb;
-            --tertiary: #ff6b6b;
-            --quaternary: #4ecdc4;
-            --dark: #1a1a2e;
-            --glass: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.2);
+            --primary: #00ff88;
+            --primary-dark: #00cc6a;
+            --secondary: #6366f1;
+            --accent: #f43f5e;
+            --dark: #0a0a0a;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
-            font-family: 'Space Grotesk', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #25D366 75%, #128C7E 100%);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
-            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            background: var(--dark);
             color: #ffffff;
             overflow-x: hidden;
+            position: relative;
         }
 
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .floating-shape {
+        /* Animated Background */
+        .bg-animation {
             position: fixed;
-            border-radius: 50%;
-            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
-            backdrop-filter: blur(10px);
-            animation: float 20s infinite ease-in-out;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: -1;
+            overflow: hidden;
         }
 
-        .shape-1 { width: 300px; height: 300px; top: 10%; left: 10%; animation-delay: 0s; }
-        .shape-2 { width: 200px; height: 200px; top: 60%; right: 10%; animation-delay: 5s; }
-        .shape-3 { width: 150px; height: 150px; bottom: 10%; left: 30%; animation-delay: 10s; }
+        .gradient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .orb1 {
+            width: 600px;
+            height: 600px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            top: -200px;
+            left: -200px;
+            animation-delay: 0s;
+        }
+
+        .orb2 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, var(--secondary), #8b5cf6);
+            top: 50%;
+            right: -100px;
+            animation-delay: 5s;
+        }
+
+        .orb3 {
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, var(--accent), #ec4899);
+            bottom: -200px;
+            left: 30%;
+            animation-delay: 10s;
+        }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            25% { transform: translateY(-20px) rotate(90deg); }
-            50% { transform: translateY(0) rotate(180deg); }
-            75% { transform: translateY(20px) rotate(270deg); }
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
         }
 
+        /* Navigation */
         nav {
             position: fixed;
             top: 0;
-            width: 100%;
-            padding: 20px 40px;
-            background: linear-gradient(135deg, rgba(26, 26, 46, 0.95), rgba(37, 211, 102, 0.1));
-            backdrop-filter: blur(25px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            left: 0;
+            right: 0;
             z-index: 1000;
-            transition: all 0.4s ease;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 20px 40px;
         }
 
         .nav-container {
@@ -101,336 +115,249 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
             font-size: 1.8rem;
             font-weight: 900;
             color: white;
             text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .logo:hover {
-            transform: scale(1.05) translateY(-2px);
-            text-shadow: 0 0 20px rgba(37, 211, 102, 0.5);
         }
 
         .logo-icon {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            border-radius: 15px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.4rem;
-            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
-            position: relative;
-            overflow: hidden;
+            font-size: 1.3rem;
+            color: var(--dark);
+            box-shadow: 0 0 40px rgba(0, 255, 136, 0.4);
+            animation: pulse 2s ease-in-out infinite;
         }
 
-        .logo-icon::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
-            animation: logoShine 3s infinite;
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 40px rgba(0, 255, 136, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 0 60px rgba(0, 255, 136, 0.6); }
         }
 
-        @keyframes logoShine {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 25px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: rgba(255, 255, 255, 0.9);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            padding: 8px 12px;
-            border-radius: 8px;
-        }
-
-        .nav-links a:hover {
-            color: white;
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-        }
-
+        /* Hero Section */
         .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            padding: 100px 20px;
+            padding: 120px 40px 80px;
             position: relative;
-            background: linear-gradient(135deg, rgba(0,0,0,0.3), rgba(0,0,0,0.1));
-            backdrop-filter: blur(20px);
-            border-radius: 0 0 40px 40px;
-            overflow: hidden;
         }
 
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
-            background-size: 20px 20px;
-            animation: float 20s linear infinite;
-            opacity: 0.3;
+        .hero-content {
+            max-width: 1000px;
+            position: relative;
+            z-index: 2;
         }
 
         .hero-badge {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
+            gap: 10px;
+            background: var(--glass);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.3);
+            border: 1px solid var(--glass-border);
             padding: 12px 24px;
             border-radius: 50px;
             font-size: 0.9rem;
             font-weight: 600;
-            color: white;
-            margin-bottom: 30px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            animation: pulse 2s ease-in-out infinite;
+            color: var(--primary);
+            margin-bottom: 40px;
+            animation: slideInDown 1s ease-out;
         }
 
         .hero-title {
-            font-size: clamp(2.5rem, 8vw, 5rem);
-            font-weight: 800;
-            background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 50%, #ffffff 100%);
+            font-size: clamp(3rem, 10vw, 7rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #ffffff 0%, var(--primary) 50%, #ffffff 100%);
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 20px;
-            line-height: 1.1;
+            animation: slideInUp 1s ease-out;
             letter-spacing: -0.02em;
-            text-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            position: relative;
-            z-index: 1;
         }
 
         .hero-subtitle {
-            font-size: clamp(1.2rem, 3vw, 1.8rem);
-            color: rgba(255,255,255,0.9);
-            margin-bottom: 50px;
+            font-size: clamp(1.2rem, 4vw, 2rem);
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 60px;
             font-weight: 400;
             line-height: 1.6;
-            text-shadow: 0 2px 20px rgba(0,0,0,0.3);
-            letter-spacing: 0.02em;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            position: relative;
-            z-index: 1;
+            animation: slideInUp 1s ease-out 0.2s both;
         }
 
-        .hero-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 30px;
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
+        @keyframes slideInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .stat-card {
-            background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 20px;
-            padding: 25px;
-            text-align: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .stat-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-            border-color: rgba(255,255,255,0.4);
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: white;
-            margin-bottom: 8px;
-            background: linear-gradient(135deg, #ffffff, #e0e0e0);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: rgba(255,255,255,0.8);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
+        /* Main Container */
         .main-container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 0 40px 100px;
+            padding: 0 40px 120px;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 40px;
         }
 
+        /* Glass Card */
         .glass-card {
             background: var(--glass);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(40px);
             border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 40px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-            transition: all 0.4s ease;
+            border-radius: 32px;
+            padding: 50px;
+            box-shadow: 0 25px 100px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
         }
 
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+        }
+
         .glass-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 35px 120px rgba(0, 0, 0, 0.4);
+            border-color: var(--primary);
         }
 
         .card-header {
             display: flex;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 30px;
+            gap: 20px;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--glass-border);
         }
 
         .card-icon {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            border-radius: 16px;
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.3rem;
-            color: white;
-            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+            font-size: 1.5rem;
+            color: var(--dark);
+            box-shadow: 0 0 40px rgba(0, 255, 136, 0.4);
         }
 
         .card-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #ffffff;
-            letter-spacing: 0.5px;
+            font-size: 2rem;
+            font-weight: 800;
+            color: white;
+            letter-spacing: -0.01em;
         }
 
+        /* Feature Tabs */
         .feature-tabs {
             display: flex;
-            gap: 8px;
-            margin-bottom: 25px;
+            gap: 15px;
+            margin-bottom: 40px;
             flex-wrap: wrap;
         }
 
         .tab-btn {
-            padding: 10px 16px;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 12px;
-            color: white;
+            padding: 14px 24px;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.95rem;
         }
 
         .tab-btn:hover {
-            background: rgba(255,255,255,0.2);
+            border-color: var(--primary);
+            color: white;
             transform: translateY(-2px);
         }
 
         .tab-btn.active {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             border-color: var(--primary);
-            transform: scale(1.05);
+            color: var(--dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(0, 255, 136, 0.3);
         }
 
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(30px, -30px) rotate(120deg); }
-            66% { transform: translate(-20px, 20px) rotate(240deg); }
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.9; }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes slideInUp {
-            from { opacity: 0; transform: translateY(50px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
+        /* Form Elements */
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-weight: 600;
-            color: #ffffff;
+            color: white;
             font-size: 0.95rem;
             letter-spacing: 0.5px;
         }
 
         input, textarea, select {
             width: 100%;
-            padding: 14px 18px;
-            background: rgba(255,255,255,0.15);
-            border: 2px solid rgba(255,255,255,0.3);
+            padding: 16px 20px;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
             border-radius: 16px;
             font-size: 1rem;
-            color: #ffffff;
+            color: white;
             font-weight: 500;
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            font-family: 'Space Grotesk', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
 
         input:focus, textarea:focus, select:focus {
             outline: none;
             border-color: var(--primary);
-            background: rgba(255,255,255,0.2);
-            box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.1);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1);
         }
 
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Buttons */
         .btn {
-            padding: 14px 28px;
+            padding: 16px 32px;
             border: none;
             border-radius: 16px;
             font-size: 1rem;
@@ -440,1211 +367,587 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
+            text-decoration: none;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .btn:hover::before {
-            left: 100%;
+            justify-content: center;
         }
 
         .btn-primary {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+            color: var(--dark);
+            box-shadow: 0 10px 40px rgba(0, 255, 136, 0.3);
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+            box-shadow: 0 15px 50px rgba(0, 255, 136, 0.4);
         }
 
-        .btn-secondary {
-            background: linear-gradient(135deg, var(--secondary), var(--accent));
-            color: white;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-        }
-
-        .btn-tertiary {
-            background: linear-gradient(135deg, var(--tertiary), #e74c3c);
-            color: white;
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
-        }
-
-        .btn-quaternary {
-            background: linear-gradient(135deg, var(--quaternary), #3498db);
-            color: white;
-            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
-        }
-
+        /* QR Preview */
         .qr-preview {
-            background: rgba(255,255,255,0.05);
-            border-radius: 20px;
-            padding: 30px;
+            background: var(--glass);
+            backdrop-filter: blur(40px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
             text-align: center;
-            min-height: 400px;
+            min-height: 500px;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
         }
 
+        .qr-preview::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(0, 255, 136, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: qrGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes qrGlow {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
+        }
+
+        #qrcode {
+            position: relative;
+            z-index: 2;
+        }
+
+        #qrcode img {
+            border-radius: 16px;
+            box-shadow: 0 25px 100px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Analytics */
         .analytics-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
         }
 
         .analytics-item {
-            text-align: center;
-            color: white;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
             padding: 20px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 15px;
-            border: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
             transition: all 0.3s ease;
         }
 
         .analytics-item:hover {
-            background: rgba(255,255,255,0.1);
-            transform: translateY(-3px);
+            transform: translateY(-5px);
+            border-color: var(--primary);
         }
 
         .analytics-value {
-            font-size: 1.8rem;
-            font-weight: 900;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 8px;
             display: block;
-            margin-bottom: 5px;
-            background: linear-gradient(135deg, var(--secondary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
         }
 
         .analytics-label {
             font-size: 0.85rem;
-            color: #ffffff;
+            color: rgba(255, 255, 255, 0.7);
             font-weight: 600;
+            text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
+        /* Footer */
+        footer {
+            background: var(--glass);
+            backdrop-filter: blur(40px);
+            border-top: 1px solid var(--glass-border);
+            padding: 60px 40px;
+            text-align: center;
+            margin-top: 120px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 15px 20px;
+            }
+            
+            .hero {
+                padding: 100px 20px 60px;
+            }
+            
+            .main-container {
+                padding: 0 20px 80px;
+            }
+            
+            .glass-card {
+                padding: 30px;
+            }
+            
+            .feature-tabs {
+                gap: 10px;
+            }
+            
+            .tab-btn {
+                padding: 12px 16px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Notification */
         .notification {
             position: fixed;
             top: 100px;
             right: 40px;
-            padding: 16px 24px;
-            border-radius: 16px;
-            color: white;
-            font-weight: 600;
-            z-index: 2000;
+            background: var(--glass);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.2);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-            animation: slideInRight 0.5s ease-out;
-            max-width: 350px;
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 16px 24px;
+            color: white;
+            font-weight: 500;
+            z-index: 10000;
+            animation: slideInRight 0.3s ease;
+            max-width: 300px;
+        }
+
+        .notification.success {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .notification.error {
+            border-color: var(--accent);
+            color: var(--accent);
         }
 
         @keyframes slideInRight {
             from { opacity: 0; transform: translateX(100px); }
             to { opacity: 1; transform: translateX(0); }
         }
-
-        .notification.success { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); }
-        .notification.error { background: linear-gradient(135deg, #dc3545, #c82333); }
-        .notification.info { background: linear-gradient(135deg, #17a2b8, #138496); }
-
-        .hidden { display: none !important; }
-
-        @media (max-width: 1024px) {
-            .main-container { grid-template-columns: 1fr; gap: 30px; }
-            .nav-links { display: none; }
-            .hero { padding: 120px 20px 60px; }
-            .hero h1 { font-size: 2.5rem; }
-            .glass-card { padding: 30px 20px; }
-        }
     </style>
 </head>
 <body>
-    <div class="floating-shape shape-1"></div>
-    <div class="floating-shape shape-2"></div>
-    <div class="floating-shape shape-3"></div>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="gradient-orb orb1"></div>
+        <div class="gradient-orb orb2"></div>
+        <div class="gradient-orb orb3"></div>
+    </div>
 
-    <nav id="navbar">
+    <!-- Navigation -->
+    <nav>
         <div class="nav-container">
             <a href="#" class="logo">
                 <div class="logo-icon">
                     <i class="fas fa-qrcode"></i>
                 </div>
-                <span>QRFlow Pro Quantum</span>
+                QRFlow Pro
             </a>
-            <ul class="nav-links">
-                <li><a href="#ai">AI Tools</a></li>
-                <li><a href="#global">Global</a></li>
-                <li><a href="#mobile">Mobile</a></li>
-                <li><a href="#blockchain">Web3</a></li>
-                <li><a href="#marketing">Marketing</a></li>
-            </ul>
         </div>
     </nav>
 
+    <!-- Hero Section -->
     <section class="hero">
-        <h1>QRFlow Pro Quantum</h1>
-        <p class="hero-subtitle">
-            AI-Powered QR Platform with Machine Learning • Web3 Integration • Global Reach • Enterprise Security
-        </p>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-bolt"></i>
+                Revolutionary QR Technology
+            </div>
+            <h1 class="hero-title">QRFlow Pro</h1>
+            <p class="hero-subtitle">Create stunning QR codes with advanced features, secret messages, and cutting-edge technology</p>
+        </div>
     </section>
 
-    <main class="main-container">
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Generator Card -->
         <div class="glass-card">
             <div class="card-header">
                 <div class="card-icon">
-                    <i class="fas fa-brain"></i>
+                    <i class="fas fa-magic"></i>
                 </div>
-                <h2 class="card-title">Quantum QR Generator</h2>
+                <h2 class="card-title">QR Generator</h2>
             </div>
 
+            <!-- Feature Tabs -->
             <div class="feature-tabs">
-                <button class="tab-btn active" onclick="switchTab('message')">💬 Message</button>
-                <button class="tab-btn" onclick="switchTab('ai')">🤖 AI</button>
-                <button class="tab-btn" onclick="switchTab('global')">🌐 Global</button>
-                <button class="tab-btn" onclick="switchTab('mobile')">📱 Mobile</button>
-                <button class="tab-btn" onclick="switchTab('blockchain')">🔗 Web3</button>
-                <button class="tab-btn" onclick="switchTab('marketing')">📈 Marketing</button>
-                <button class="tab-btn" onclick="switchTab('security')">🛡️ Security</button>
-                <button class="tab-btn" onclick="switchTab('interactive')">🎪 Interactive</button>
-                <button class="tab-btn" onclick="switchTab('bi')">📊 BI 2.0</button>
+                <button class="tab-btn active" onclick="switchTab('message')">
+                    <span>💬 Message</span>
+                </button>
+                <button class="tab-btn" onclick="switchTab('url')">
+                    <span>🔗 URL</span>
+                </button>
+                <button class="tab-btn" onclick="switchTab('contact')">
+                    <span>👤 Contact</span>
+                </button>
+                <button class="tab-btn" onclick="switchTab('wifi')">
+                    <span>📶 WiFi</span>
+                </button>
             </div>
 
-            <!-- Secret Message Tab -->
+            <!-- Message Tab -->
             <div id="message-tab" class="tab-content active">
-                <form id="messageForm">
+                <form id="messageForm" onsubmit="generateMessageQR(event)">
                     <div class="form-group">
-                        <label>💬 Your Secret Message</label>
-                        <textarea id="secretMessage" placeholder="Type your anonymous message here... This will be embedded in the QR code and can be read when scanned." rows="4" maxlength="500"></textarea>
-                        <small style="color: rgba(255,255,255,0.7); font-size: 0.85rem; margin-top: 5px; display: block;">
-                            <span id="charCount">0</span>/500 characters
-                        </small>
+                        <label>Secret Message</label>
+                        <textarea id="secretMessage" placeholder="Enter your secret message..." required></textarea>
                     </div>
                     <div class="form-group">
-                        <label>🎨 Message Type</label>
+                        <label>Message Type</label>
                         <select id="messageType">
-                            <option value="secret">🔒 Secret Message</option>
-                            <option value="note">📝 Personal Note</option>
-                            <option value="quote">💭 Inspiration Quote</option>
-                            <option value="joke">😄 Joke</option>
-                            <option value="poem">📜 Poem</option>
-                            <option value="confession">💭 Confession</option>
+                            <option value="secret">🔒 Secret</option>
+                            <option value="note">📝 Note</option>
+                            <option value="quote">💭 Quote</option>
                             <option value="compliment">💝 Compliment</option>
-                            <option value="anonymous">🎭 Anonymous Tip</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>🔐 Privacy Level</label>
-                        <select id="privacyLevel">
-                            <option value="public">🌍 Public (Anyone can read)</option>
-                            <option value="friends">👥 Friends Only</option>
-                            <option value="private">🔒 Private (Password protected)</option>
-                            <option value="selfdestruct">💣 Self-destruct (Read once)</option>
-                        </select>
-                    </div>
-                    <div class="form-group" id="passwordGroup" style="display: none;">
-                        <label>🔑 Password (Optional)</label>
-                        <input type="password" id="messagePassword" placeholder="Enter password to protect your message">
-                    </div>
-                    <div class="form-group">
-                        <label>⏰ Expiration</label>
-                        <select id="messageExpiration">
-                            <option value="never">🔄 Never expires</option>
-                            <option value="1hour">⏰ 1 hour</option>
-                            <option value="24hours">📅 24 hours</option>
-                            <option value="7days">📆 7 days</option>
-                            <option value="30days">📅 30 days</option>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-envelope-secret"></i> Create Secret Message QR
+                        <i class="fas fa-qrcode"></i>
+                        Generate QR Code
                     </button>
                 </form>
             </div>
 
-            <!-- AI Tab -->
-            <div id="ai-tab" class="tab-content">
-                <form id="aiForm">
+            <!-- URL Tab -->
+            <div id="url-tab" class="tab-content">
+                <form id="urlForm" onsubmit="generateURLQR(event)">
                     <div class="form-group">
-                        <label>🤖 AI Mode</label>
-                        <select id="aiMode">
-                            <option value="prediction">Performance Prediction</option>
-                            <option value="abtest">Automated A/B Testing</option>
-                            <option value="sentiment">Sentiment Analysis</option>
-                            <option value="image">Image Recognition</option>
-                        </select>
+                        <label>Website URL</label>
+                        <input type="url" id="websiteUrl" placeholder="https://example.com" required>
                     </div>
                     <div class="form-group">
-                        <label>🎯 QR Purpose</label>
-                        <select id="qrPurpose">
-                            <option value="marketing">Marketing Campaign</option>
-                            <option value="payment">Payment Collection</option>
-                            <option value="social">Social Media</option>
-                            <option value="business">Business Card</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>📊 Target Performance</label>
-                        <input type="number" id="targetPerformance" placeholder="Expected scan rate (%)" value="75">
+                        <label>Title (Optional)</label>
+                        <input type="text" id="urlTitle" placeholder="Website title">
                     </div>
                     <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-magic"></i> AI Generate QR
+                        <i class="fas fa-link"></i>
+                        Generate QR Code
                     </button>
                 </form>
             </div>
 
-            <!-- Global Tab -->
-            <div id="global-tab" class="tab-content">
-                <form id="globalForm">
+            <!-- Contact Tab -->
+            <div id="contact-tab" class="tab-content">
+                <form id="contactForm" onsubmit="generateContactQR(event)">
                     <div class="form-group">
-                        <label>🌍 Language</label>
-                        <select id="language">
-                            <option value="en">English</option>
-                            <option value="es">Español</option>
-                            <option value="fr">Français</option>
-                            <option value="de">Deutsch</option>
-                            <option value="zh">中文</option>
-                            <option value="ja">日本語</option>
-                        </select>
+                        <label>Name</label>
+                        <input type="text" id="contactName" placeholder="John Doe" required>
                     </div>
                     <div class="form-group">
-                        <label>💰 Currency</label>
-                        <select id="currency">
-                            <option value="USD">USD ($)</option>
-                            <option value="EUR">EUR (€)</option>
-                            <option value="GBP">GBP (£)</option>
-                            <option value="JPY">JPY (¥)</option>
-                            <option value="NGN">NGN (₦)</option>
-                        </select>
+                        <label>Phone</label>
+                        <input type="tel" id="contactPhone" placeholder="+1234567890" required>
                     </div>
                     <div class="form-group">
-                        <label>🏛️ Region</label>
-                        <select id="region">
-                            <option value="global">Global</option>
-                            <option value="americas">Americas</option>
-                            <option value="europe">Europe</option>
-                            <option value="asia">Asia Pacific</option>
-                            <option value="africa">Africa</option>
-                        </select>
+                        <label>Email</label>
+                        <input type="email" id="contactEmail" placeholder="john@example.com">
                     </div>
-                    <button type="submit" class="btn btn-secondary">
-                        <i class="fas fa-globe"></i> Create Global QR
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-user"></i>
+                        Generate QR Code
                     </button>
                 </form>
             </div>
 
-            <!-- Mobile Tab -->
-            <div id="mobile-tab" class="tab-content">
-                <form id="mobileForm">
+            <!-- WiFi Tab -->
+            <div id="wifi-tab" class="tab-content">
+                <form id="wifiForm" onsubmit="generateWiFiQR(event)">
                     <div class="form-group">
-                        <label>📱 Mobile Template</label>
-                        <select id="mobileTemplate">
-                            <option value="responsive">Responsive Design</option>
-                            <option value="mobile-first">Mobile-First</option>
-                            <option value="app-style">App-Style</option>
-                            <option value="minimal">Minimal Mobile</option>
-                        </select>
+                        <label>Network Name (SSID)</label>
+                        <input type="text" id="wifiSSID" placeholder="MyWiFiNetwork" required>
                     </div>
                     <div class="form-group">
-                        <label>📷 Camera Integration</label>
-                        <select id="cameraMode">
-                            <option value="auto">Auto Detect</option>
-                            <option value="manual">Manual Scan</option>
-                            <option value="continuous">Continuous Scan</option>
-                        </select>
+                        <label>Password</label>
+                        <input type="password" id="wifiPassword" placeholder="WiFi password">
                     </div>
                     <div class="form-group">
-                        <label>🔔 Push Notifications</label>
-                        <input type="email" id="notificationEmail" placeholder="Email for scan alerts">
-                    </div>
-                    <button type="submit" class="btn btn-quaternary">
-                        <i class="fas fa-mobile-alt"></i> Create Mobile QR
-                    </button>
-                </form>
-            </div>
-
-            <!-- Blockchain Tab -->
-            <div id="blockchain-tab" class="tab-content">
-                <form id="blockchainForm">
-                    <div class="form-group">
-                        <label>🔗 Web3 Type</label>
-                        <select id="web3Type">
-                            <option value="nft">NFT Collection</option>
-                            <option value="crypto">Crypto Payment</option>
-                            <option value="smartcontract">Smart Contract</option>
-                            <option value="wallet">Wallet Connection</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>🪙 Blockchain</label>
-                        <select id="blockchain">
-                            <option value="ethereum">Ethereum</option>
-                            <option value="polygon">Polygon</option>
-                            <option value="bsc">BSC</option>
-                            <option value="solana">Solana</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>📄 Contract Address</label>
-                        <input type="text" id="contractAddress" placeholder="0x...">
-                    </div>
-                    <button type="submit" class="btn btn-tertiary">
-                        <i class="fas fa-cube"></i> Create Web3 QR
-                    </button>
-                </form>
-            </div>
-
-            <!-- Marketing Tab -->
-            <div id="marketing-tab" class="tab-content">
-                <form id="marketingForm">
-                    <div class="form-group">
-                        <label>🎯 Campaign Type</label>
-                        <select id="campaignType">
-                            <option value="funnel">Sales Funnel</option>
-                            <option value="landing">Landing Page</option>
-                            <option value="email">Email Campaign</option>
-                            <option value="retargeting">Retargeting</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>📊 Conversion Goal</label>
-                        <input type="text" id="conversionGoal" placeholder="e.g., Sign up, Purchase, Download">
-                    </div>
-                    <div class="form-group">
-                        <label>🎨 Pixel Integration</label>
-                        <select id="pixelType">
-                            <option value="facebook">Facebook Pixel</option>
-                            <option value="google">Google Analytics</option>
-                            <option value="linkedin">LinkedIn Insight</option>
-                            <option value="tiktok">TikTok Pixel</option>
+                        <label>Security Type</label>
+                        <select id="wifiSecurity">
+                            <option value="WPA">WPA/WPA2</option>
+                            <option value="WEP">WEP</option>
+                            <option value="nopass">No Password</option>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-chart-line"></i> Create Marketing QR
-                    </button>
-                </form>
-            </div>
-
-            <!-- Security Tab -->
-            <div id="security-tab" class="tab-content">
-                <form id="securityForm">
-                    <div class="form-group">
-                        <label>🔐 Security Level</label>
-                        <select id="securityLevel">
-                            <option value="basic">Basic Encryption</option>
-                            <option value="advanced">Advanced Security</option>
-                            <option value="enterprise">Enterprise Grade</option>
-                            <option value="military">Military Level</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>🛡️ Compliance</label>
-                        <select id="compliance">
-                            <option value="gdpr">GDPR Compliant</option>
-                            <option value="hipaa">HIPAA Compliant</option>
-                            <option value="sox">SOX Compliant</option>
-                            <option value="pci">PCI DSS Compliant</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>👥 Access Control</label>
-                        <select id="accessControl">
-                            <option value="public">Public Access</option>
-                            <option value="private">Private Access</option>
-                            <option value="restricted">Restricted Access</option>
-                            <option value="authenticated">Authenticated Only</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-tertiary">
-                        <i class="fas fa-shield-alt"></i> Create Secure QR
-                    </button>
-                </form>
-            </div>
-
-            <!-- Interactive Tab -->
-            <div id="interactive-tab" class="tab-content">
-                <form id="interactiveForm">
-                    <div class="form-group">
-                        <label>🎪 Interactive Type</label>
-                        <select id="interactiveType">
-                            <option value="ar">Augmented Reality</option>
-                            <option value="vr">Virtual Reality</option>
-                            <option value="video">Video Experience</option>
-                            <option value="audio">Audio Message</option>
-                            <option value="game">Gamified Experience</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>🎬 Media URL</label>
-                        <input type="url" id="mediaUrl" placeholder="https://example.com/media">
-                    </div>
-                    <div class="form-group">
-                        <label>🎮 Interaction Level</label>
-                        <select id="interactionLevel">
-                            <option value="simple">Simple Interaction</option>
-                            <option value="moderate">Moderate Engagement</option>
-                            <option value="advanced">Advanced Experience</option>
-                            <option value="immersive">Fully Immersive</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-quaternary">
-                        <i class="fas fa-gamepad"></i> Create Interactive QR
-                    </button>
-                </form>
-            </div>
-
-            <!-- BI Tab -->
-            <div id="bi-tab" class="tab-content">
-                <form id="biForm">
-                    <div class="form-group">
-                        <label>📊 Analytics Focus</label>
-                        <select id="analyticsFocus">
-                            <option value="competitor">Competitor Analysis</option>
-                            <option value="market">Market Trends</option>
-                            <option value="journey">Customer Journey</option>
-                            <option value="revenue">Revenue Attribution</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>🎯 KPI Tracking</label>
-                        <input type="text" id="kpiTracking" placeholder="e.g., ROI, CPA, LTV">
-                    </div>
-                    <div class="form-group">
-                        <label>📈 Report Frequency</label>
-                        <select id="reportFrequency">
-                            <option value="realtime">Real-time</option>
-                            <option value="hourly">Hourly</option>
-                            <option value="daily">Daily</option>
-                            <option value="weekly">Weekly</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-secondary">
-                        <i class="fas fa-chart-bar"></i> Create BI QR
+                        <i class="fas fa-wifi"></i>
+                        Generate QR Code
                     </button>
                 </form>
             </div>
         </div>
 
+        <!-- Analytics Card -->
         <div class="glass-card">
             <div class="card-header">
                 <div class="card-icon">
-                    <i class="fas fa-analytics"></i>
+                    <i class="fas fa-chart-line"></i>
                 </div>
-                <h2 class="card-title">Quantum Analytics</h2>
+                <h2 class="card-title">Live Analytics</h2>
             </div>
 
             <div class="analytics-grid">
                 <div class="analytics-item">
-                    <span class="analytics-value" id="messageCount">0</span>
+                    <span class="analytics-value" id="qrGenerated">0</span>
+                    <span class="analytics-label">QR Generated</span>
+                </div>
+                <div class="analytics-item">
+                    <span class="analytics-value" id="messagesCreated">0</span>
                     <span class="analytics-label">Secret Messages</span>
                 </div>
                 <div class="analytics-item">
-                    <span class="analytics-value" id="aiPredictions">0</span>
-                    <span class="analytics-label">AI Predictions</span>
+                    <span class="analytics-value" id="urlsCreated">0</span>
+                    <span class="analytics-label">URLs Created</span>
                 </div>
                 <div class="analytics-item">
-                    <span class="analytics-value" id="globalReach">0</span>
-                    <span class="analytics-label">Global Reach</span>
-                </div>
-                <div class="analytics-item">
-                    <span class="analytics-value" id="mobileUsers">0</span>
-                    <span class="analytics-label">Mobile Users</span>
-                </div>
-                <div class="analytics-item">
-                    <span class="analytics-value" id="web3Tx">0</span>
-                    <span class="analytics-label">Web3 Transactions</span>
-                </div>
-                <div class="analytics-item">
-                    <span class="analytics-value" id="conversions">0%</span>
-                    <span class="analytics-label">Conversions</span>
-                </div>
-                <div class="analytics-item">
-                    <span class="analytics-value" id="securityScore">100</span>
-                    <span class="analytics-label">Security Score</span>
+                    <span class="analytics-value" id="contactsCreated">0</span>
+                    <span class="analytics-label">Contacts</span>
                 </div>
             </div>
 
+            <!-- QR Preview -->
             <div class="qr-preview">
-                <div id="qrPlaceholder">
-                    <i class="fas fa-qrcode" style="font-size: 4rem; margin-bottom: 20px; opacity: 0.5;"></i>
-                    <p>Your Quantum QR code will appear here</p>
-                </div>
-                <div id="qrcode" class="hidden"></div>
+                <div id="qrcode"></div>
             </div>
         </div>
-    </main>
+    </div>
 
     <!-- Footer -->
-    <footer style="
-        background: linear-gradient(135deg, rgba(26, 26, 46, 0.95), rgba(37, 211, 102, 0.1));
-        backdrop-filter: blur(25px);
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 40px;
-        text-align: center;
-        margin-top: 80px;
-    ">
-        <div style="max-width: 1200px; margin: 0 auto;">
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px;">
-                <div>
-                    <h4 style="color: white; margin-bottom: 15px; font-size: 1.1rem;">QRFlow Pro Quantum</h4>
-                    <p style="color: rgba(255, 255, 255, 0.8); line-height: 1.6; margin: 0;">
-                        The world's most advanced QR platform with AI-powered features, blockchain integration, and global reach.
-                    </p>
-                </div>
-                <div>
-                    <h4 style="color: white; margin-bottom: 15px; font-size: 1.1rem;">Features</h4>
-                    <ul style="color: rgba(255, 255, 255, 0.8); line-height: 1.8; margin: 0; list-style: none;">
-                        <li style="margin-bottom: 8px;">🤖 AI-Powered QR Generation</li>
-                        <li style="margin-bottom: 8px;">💬 Secret Messages</li>
-                        <li style="margin-bottom: 8px;">🔗 Blockchain Integration</li>
-                        <li style="margin-bottom: 8px;">🌐 Global Reach</li>
-                        <li style="margin-bottom: 8px;">📱 Mobile PWA</li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 style="color: white; margin-bottom: 15px; font-size: 1.1rem;">Quick Links</h4>
-                    <ul style="color: rgba(255, 255, 255, 0.8); line-height: 1.8; margin: 0; list-style: none;">
-                        <li style="margin-bottom: 8px;"><a href="#ai" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">AI Tools</a></li>
-                        <li style="margin-bottom: 8px;"><a href="#global" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">Global Features</a></li>
-                        <li style="margin-bottom: 8px;"><a href="#blockchain" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">Web3 Integration</a></li>
-                        <li style="margin-bottom: 8px;"><a href="#marketing" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">Marketing Tools</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 style="color: white; margin-bottom: 15px; font-size: 1.1rem;">Connect</h4>
-                    <div style="display: flex; gap: 15px; justify-content: center;">
-                        <a href="#" style="
-                            width: 40px;
-                            height: 40px;
-                            background: rgba(255, 255, 255, 0.1);
-                            border: 1px solid rgba(255, 255, 255, 0.2);
-                            border-radius: 50%;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            color: white;
-                            text-decoration: none;
-                            transition: all 0.3s ease;
-                        " onmouseover="this.style.background='rgba(255, 255, 255, 0.2)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.1)'">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" style="
-                            width: 40px;
-                            height: 40px;
-                            background: rgba(255, 255, 255, 0.1);
-                            border: 1px solid rgba(255, 255, 255, 0.2);
-                            border-radius: 50%;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            color: white;
-                            text-decoration: none;
-                            transition: all 0.3s ease;
-                        " onmouseover="this.style.background='rgba(255, 255, 255, 0.2)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.1)'">
-                            <i class="fab fa-facebook"></i>
-                        </a>
-                        <a href="#" style="
-                            width: 40px;
-                            height: 40px;
-                            background: rgba(255, 255, 255, 0.1);
-                            border: 1px solid rgba(255, 255, 255, 0.2);
-                            border-radius: 50%;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            color: white;
-                            text-decoration: none;
-                            transition: all 0.3s ease;
-                        " onmouseover="this.style.background='rgba(255, 255, 255, 0.2)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.1)'">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                    </div>
-                </div>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#">About</a>
+                <a href="#">Features</a>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
             </div>
-            
-            <div style="
-                border-top: 1px solid rgba(255, 255, 255, 0.1);
-                padding-top: 30px;
-                margin-top: 40px;
-            ">
-                <p style="color: rgba(255, 255, 255, 0.6); margin: 0; font-size: 0.9rem;">
-                    © 2026 QRFlow Pro Quantum. All rights reserved. Made with ❤️ by <a href="https://www.ibuild.work" target="_blank" style="color: rgba(255, 255, 255, 0.8); text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='rgba(255, 255, 255, 1)'" onmouseout="this.style.color='rgba(255, 255, 255, 0.8)'">iBuild.work</a>.
-                </p>
-                <div style="margin-top: 15px;">
-                    <span style="color: rgba(255, 255, 255, 0.8); font-size: 0.85rem;">
-                        🌍 Global Reach • 🤖 AI-Powered • 🔗 Blockchain Ready • 📱 Mobile Optimized
-                    </span>
-                </div>
-            </div>
+            <p style="color: rgba(255, 255, 255, 0.5); margin-bottom: 10px;">
+                © 2026 QRFlow Pro. All rights reserved.
+            </p>
+            <p style="color: rgba(255, 255, 255, 0.5);">
+                Made with ❤️ by <a href="https://www.ibuild.work" target="_blank" style="color: var(--primary);">iBuild.work</a>
+            </p>
         </div>
     </footer>
 
     <script>
-        // Quantum Analytics System
-        class QuantumAnalytics {
-            constructor() {
-                this.messageCount = parseInt(localStorage.getItem('totalMessages') || '0');
-                this.aiPredictions = 0;
-                this.globalReach = 0;
-                this.mobileUsers = 0;
-                this.web3Tx = 0;
-                this.conversions = 0;
-                this.securityScore = 100;
-                this.init();
-            }
-
-            init() {
-                this.simulateQuantumMetrics();
-                this.startRealTimeUpdates();
-            }
-
-            simulateQuantumMetrics() {
-                setInterval(() => {
-                    this.aiPredictions += Math.floor(Math.random() * 3);
-                    this.globalReach += Math.floor(Math.random() * 5);
-                    this.mobileUsers += Math.floor(Math.random() * 8);
-                    this.web3Tx += Math.floor(Math.random() * 2);
-                    this.conversions = Math.min(95, this.conversions + Math.random() * 2);
-                    this.updateDisplay();
-                }, 3000);
-            }
-
-            startRealTimeUpdates() {
-                setInterval(() => {
-                    this.securityScore = Math.max(85, this.securityScore - Math.random() * 2);
-                    this.updateDisplay();
-                }, 5000);
-            }
-
-            updateDisplay() {
-                document.getElementById('messageCount').textContent = this.messageCount;
-                document.getElementById('aiPredictions').textContent = this.aiPredictions;
-                document.getElementById('globalReach').textContent = this.globalReach;
-                document.getElementById('mobileUsers').textContent = this.mobileUsers;
-                document.getElementById('web3Tx').textContent = this.web3Tx;
-                document.getElementById('conversions').textContent = Math.round(this.conversions) + '%';
-                document.getElementById('securityScore').textContent = Math.round(this.securityScore);
-            }
-        }
-
-        // AI/ML Engine
-        class AIEngine {
-            static async predictPerformance(qrData) {
-                // Fast performance prediction without ML delay
-                const features = this.extractFeatures(qrData);
-                const prediction = this.fastModel(features);
-                return prediction;
-            }
-
-            static extractFeatures(qrData) {
-                return {
-                    colorContrast: this.calculateContrast(qrData.qrColor, qrData.bgColor),
-                    complexity: qrData.errorCorrection,
-                    size: qrData.size,
-                    purpose: qrData.purpose
-                };
-            }
-
-            static calculateContrast(color1, color2) {
-                // Simplified contrast calculation
-                return Math.abs(parseInt(color1.slice(1), 16) - parseInt(color2.slice(1), 16)) / 255;
-            }
-
-            static fastModel(features) {
-                // Fast prediction without TensorFlow.js
-                const baseScore = 75;
-                const complexityBonus = features.complexity === 'H' ? 10 : 5;
-                return Math.min(95, baseScore + complexityBonus + Math.random() * 10);
-            }
-        }
-
-        // Global Localization
-        class GlobalLocalization {
-            static getLocalizedContent(language, currency, region) {
-                const templates = {
-                    en: { greeting: "Hello", currency: "$", dateFormat: "MM/DD/YYYY" },
-                    es: { greeting: "Hola", currency: "€", dateFormat: "DD/MM/YYYY" },
-                    fr: { greeting: "Bonjour", currency: "€", dateFormat: "DD/MM/YYYY" },
-                    de: { greeting: "Hallo", currency: "€", dateFormat: "DD.MM.YYYY" },
-                    zh: { greeting: "你好", currency: "¥", dateFormat: "YYYY-MM-DD" },
-                    ja: { greeting: "こんにちは", currency: "¥", dateFormat: "YYYY/MM/DD" }
-                };
-                return templates[language] || templates.en;
-            }
-
-            static detectCurrency() {
-                // Simulate currency detection based on timezone
-                const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-                const currencyMap = {
-                    'America/New_York': 'USD',
-                    'Europe/London': 'GBP',
-                    'Europe/Paris': 'EUR',
-                    'Asia/Tokyo': 'JPY',
-                    'Africa/Lagos': 'NGN'
-                };
-                return currencyMap[timezone] || 'USD';
-            }
-        }
-
-        // PWA Features
-        class PWAFeatures {
-            static registerServiceWorker() {
-                if ('serviceWorker' in navigator) {
-                    navigator.serviceWorker.register('/sw.js').catch(console.error);
-                }
-            }
-
-            static requestInstallPrompt() {
-                if ('BeforeInstallPromptEvent' in window) {
-                    window.addEventListener('beforeinstallprompt', (e) => {
-                        e.prompt();
-                    });
-                }
-            }
-
-            static requestNotificationPermission() {
-                if ('Notification' in navigator) {
-                    Notification.requestPermission();
-                }
-            }
-        }
-
-        // Web3 Integration
-        class Web3Integration {
-            static async connectWallet() {
-                if (typeof window.ethereum !== 'undefined') {
-                    try {
-                        await window.ethereum.request({ method: 'eth_requestAccounts' });
-                        return true;
-                    } catch (error) {
-                        console.error('Wallet connection failed:', error);
-                        return false;
-                    }
-                }
-                return false;
-            }
-
-            static createNFTQR(contractAddress, tokenId) {
-                const nftUrl = `https://opensea.io/assets/ethereum/${contractAddress}/${tokenId}`;
-                return nftUrl;
-            }
-
-            static createCryptoPaymentQR(address, amount, currency) {
-                const paymentUrl = `${currency.toLowerCase()}:${address}?amount=${amount}`;
-                return paymentUrl;
-            }
-        }
-
-        // Marketing Automation
-        class MarketingAutomation {
-            static createPixelURL(pixelType, pixelId, eventName) {
-                const pixelUrls = {
-                    facebook: `https://www.facebook.com/tr?id=${pixelId}&ev=${eventName}`,
-                    google: `https://www.google-analytics.com/collect?v=1&t=event&tid=${pixelId}&ec=qr&ea=${eventName}`,
-                    linkedin: `https://dc.ads.linkedin.com/collect/?pid=${pixelId}&conversionId=${eventName}`,
-                    tiktok: `https://analytics.tiktok.com/api/v2/pixel?pixel_id=${pixelId}&event=${eventName}`
-                };
-                return pixelUrls[pixelType] || '';
-            }
-
-            static trackConversion(qrId, conversionValue) {
-                // Simulate conversion tracking
-                const conversionData = {
-                    qrId: qrId,
-                    value: conversionValue,
-                    timestamp: Date.now(),
-                    userAgent: navigator.userAgent
-                };
-                localStorage.setItem(`conversion_${qrId}`, JSON.stringify(conversionData));
-            }
-        }
-
-        // Security Engine
-        class SecurityEngine {
-            static encryptQRData(data, securityLevel) {
-                // Simulate encryption based on security level
-                const encryptionLevels = {
-                    basic: btoa(data),
-                    advanced: btoa(data + '_salt'),
-                    enterprise: btoa(data + '_enterprise_salt'),
-                    military: btoa(data + '_military_grade_salt')
-                };
-                return encryptionLevels[securityLevel] || encryptionLevels.basic;
-            }
-
-            static validateGDPR(userData) {
-                // Simulate GDPR validation
-                const requiredFields = ['consent', 'purpose', 'retention'];
-                return requiredFields.every(field => userData[field]);
-            }
-
-            static auditLog(action, userId, details) {
-                const logEntry = {
-                    timestamp: Date.now(),
-                    action: action,
-                    userId: userId,
-                    details: details,
-                    ipAddress: '192.168.1.1' // Simulated IP
-                };
-                let logs = JSON.parse(localStorage.getItem('auditLogs') || '[]');
-                logs.push(logEntry);
-                localStorage.setItem('auditLogs', JSON.stringify(logs));
-            }
-        }
-
-        // Initialize everything
-        let quantumAnalytics;
+        // Global variables
+        let qrcode = null;
         let currentTab = 'message';
+        let analytics = {
+            qrGenerated: 0,
+            messagesCreated: 0,
+            urlsCreated: 0,
+            contactsCreated: 0
+        };
 
-        window.addEventListener('load', () => {
-            quantumAnalytics = new QuantumAnalytics();
-            PWAFeatures.registerServiceWorker();
-            PWAFeatures.requestNotificationPermission();
-            
-            // Check for message view
-            checkForMessageView();
-            
-            // Initialize forms
-            initializeForms();
-            
-            // Auto-generate demo QR
-            setTimeout(() => generateQuantumQR(), 1000);
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAnalytics();
+            updateAnalyticsDisplay();
         });
 
+        // Tab switching
         function switchTab(tabName) {
             currentTab = tabName;
             
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
             event.target.classList.add('active');
             
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
             document.getElementById(tabName + '-tab').classList.add('active');
         }
 
-        function initializeForms() {
-            const forms = ['messageForm', 'aiForm', 'globalForm', 'mobileForm', 'blockchainForm', 'marketingForm', 'securityForm', 'interactiveForm', 'biForm'];
+        // Generate Message QR
+        function generateMessageQR(event) {
+            event.preventDefault();
             
-            forms.forEach(formId => {
-                document.getElementById(formId).addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    handleFormSubmit(formId.replace('Form', ''));
-                });
-            });
-
-            // Initialize message form specific features
-            initializeMessageForm();
+            const message = document.getElementById('secretMessage').value;
+            const messageType = document.getElementById('messageType').value;
+            
+            const qrContent = `🔒 SECRET MESSAGE\n━━━━━━━━━━━━━━━━━━\n\n${message}\n\n━━━━━━━━━━━━━━━━━━\nType: ${messageType}\n\n📱 Created with QRFlow Pro\nCreate your own at: ${window.location.origin}`;
+            
+            generateQRCode(qrContent);
+            
+            analytics.messagesCreated++;
+            analytics.qrGenerated++;
+            saveAnalytics();
+            updateAnalyticsDisplay();
+            
+            showNotification('Secret message QR created successfully!', 'success');
         }
 
-        function initializeMessageForm() {
-            const messageTextarea = document.getElementById('secretMessage');
-            const charCount = document.getElementById('charCount');
-            const privacyLevel = document.getElementById('privacyLevel');
-            const passwordGroup = document.getElementById('passwordGroup');
-
-            // Character counter
-            messageTextarea.addEventListener('input', () => {
-                charCount.textContent = messageTextarea.value.length;
-            });
-
-            // Show/hide password field based on privacy level
-            privacyLevel.addEventListener('change', () => {
-                if (privacyLevel.value === 'private') {
-                    passwordGroup.style.display = 'block';
-                } else {
-                    passwordGroup.style.display = 'none';
-                }
-            });
-        }
-
-        async function handleFormSubmit(type) {
-            showNotification(`Generating ${type} QR...`, 'info');
+        // Generate URL QR
+        function generateURLQR(event) {
+            event.preventDefault();
             
-            const qrData = collectFormData(type);
+            const url = document.getElementById('websiteUrl').value;
+            const title = document.getElementById('urlTitle').value;
             
-            // Skip AI prediction for faster generation
-            const performance = type === 'message' ? 85 : await AIEngine.predictPerformance(qrData);
-            
-            generateQuantumQR(qrData, performance);
-            updateAnalytics(type);
-            
-            showNotification(`${type.charAt(0).toUpperCase() + type.slice(1)} QR created successfully!`, 'success');
-        }
-
-        function collectFormData(type) {
-            const formData = {};
-            
-            switch(type) {
-                case 'message':
-                    formData.message = document.getElementById('secretMessage').value;
-                    formData.messageType = document.getElementById('messageType').value;
-                    formData.privacy = document.getElementById('privacyLevel').value;
-                    formData.password = document.getElementById('messagePassword').value;
-                    formData.expiration = document.getElementById('messageExpiration').value;
-                    break;
-                case 'ai':
-                    formData.mode = document.getElementById('aiMode').value;
-                    formData.purpose = document.getElementById('qrPurpose').value;
-                    formData.targetPerformance = document.getElementById('targetPerformance').value;
-                    break;
-                case 'global':
-                    formData.language = document.getElementById('language').value;
-                    formData.currency = document.getElementById('currency').value;
-                    formData.region = document.getElementById('region').value;
-                    break;
-                case 'mobile':
-                    formData.template = document.getElementById('mobileTemplate').value;
-                    formData.camera = document.getElementById('cameraMode').value;
-                    formData.notifications = document.getElementById('notificationEmail').value;
-                    break;
-                case 'blockchain':
-                    formData.web3Type = document.getElementById('web3Type').value;
-                    formData.blockchain = document.getElementById('blockchain').value;
-                    formData.contract = document.getElementById('contractAddress').value;
-                    break;
-                case 'marketing':
-                    formData.campaign = document.getElementById('campaignType').value;
-                    formData.conversion = document.getElementById('conversionGoal').value;
-                    formData.pixel = document.getElementById('pixelType').value;
-                    break;
-                case 'security':
-                    formData.security = document.getElementById('securityLevel').value;
-                    formData.compliance = document.getElementById('compliance').value;
-                    formData.access = document.getElementById('accessControl').value;
-                    break;
-                case 'interactive':
-                    formData.interactive = document.getElementById('interactiveType').value;
-                    formData.media = document.getElementById('mediaUrl').value;
-                    formData.level = document.getElementById('interactionLevel').value;
-                    break;
-                case 'bi':
-                    formData.focus = document.getElementById('analyticsFocus').value;
-                    formData.kpi = document.getElementById('kpiTracking').value;
-                    formData.frequency = document.getElementById('reportFrequency').value;
-                    break;
+            let qrContent = `🔗 WEBSITE\n━━━━━━━━━━━━━━━━━━\n\n${url}`;
+            if (title) {
+                qrContent += `\n\n${title}`;
             }
+            qrContent += `\n\n━━━━━━━━━━━━━━━━━━\n📱 Created with QRFlow Pro\nCreate your own at: ${window.location.origin}`;
             
-            return formData;
+            generateQRCode(qrContent);
+            
+            analytics.urlsCreated++;
+            analytics.qrGenerated++;
+            saveAnalytics();
+            updateAnalyticsDisplay();
+            
+            showNotification('URL QR created successfully!', 'success');
         }
 
-        function generateQuantumQR(data, performance) {
+        // Generate Contact QR
+        function generateContactQR(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('contactName').value;
+            const phone = document.getElementById('contactPhone').value;
+            const email = document.getElementById('contactEmail').value;
+            
+            const qrContent = `👤 CONTACT INFO\n━━━━━━━━━━━━━━━━━━\n\nName: ${name}\nPhone: ${phone}`;
+            if (email) {
+                qrContent += `\nEmail: ${email}`;
+            }
+            qrContent += `\n\n━━━━━━━━━━━━━━━━━━\n📱 Created with QRFlow Pro\nCreate your own at: ${window.location.origin}`;
+            
+            generateQRCode(qrContent);
+            
+            analytics.contactsCreated++;
+            analytics.qrGenerated++;
+            saveAnalytics();
+            updateAnalyticsDisplay();
+            
+            showNotification('Contact QR created successfully!', 'success');
+        }
+
+        // Generate WiFi QR
+        function generateWiFiQR(event) {
+            event.preventDefault();
+            
+            const ssid = document.getElementById('wifiSSID').value;
+            const password = document.getElementById('wifiPassword').value;
+            const security = document.getElementById('wifiSecurity').value;
+            
+            const qrContent = `📶 WIFI NETWORK\n━━━━━━━━━━━━━━━━━━\n\nNetwork: ${ssid}\nSecurity: ${security}`;
+            if (password) {
+                qrContent += `\nPassword: ${password}`;
+            }
+            qrContent += `\n\n━━━━━━━━━━━━━━━━━━\n📱 Created with QRFlow Pro\nCreate your own at: ${window.location.origin}`;
+            
+            generateQRCode(qrContent);
+            
+            analytics.qrGenerated++;
+            saveAnalytics();
+            updateAnalyticsDisplay();
+            
+            showNotification('WiFi QR created successfully!', 'success');
+        }
+
+        // Generate QR Code
+        function generateQRCode(content) {
             const qrContainer = document.getElementById('qrcode');
             qrContainer.innerHTML = '';
             
-            document.getElementById('qrPlaceholder').classList.add('hidden');
-            qrContainer.classList.remove('hidden');
-            
-            // Generate unique quantum ID
-            const quantumId = 'qr_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-            let qrContent;
-            
-            // Handle different QR types with actual content
-            switch(currentTab) {
-                case 'message':
-                    qrContent = createMessageContent(data, quantumId);
-                    break;
-                case 'ai':
-                    qrContent = createAIContent(data);
-                    break;
-                case 'global':
-                    qrContent = createGlobalContent(data);
-                    break;
-                case 'mobile':
-                    qrContent = createMobileContent(data);
-                    break;
-                case 'blockchain':
-                    qrContent = createBlockchainContent(data);
-                    break;
-                case 'marketing':
-                    qrContent = createMarketingContent(data);
-                    break;
-                case 'security':
-                    qrContent = createSecurityContent(data);
-                    break;
-                case 'interactive':
-                    qrContent = createInteractiveContent(data);
-                    break;
-                case 'bi':
-                    qrContent = createBIContent(data);
-                    break;
-                default:
-                    qrContent = `${window.location.origin}?view_qr=${quantumId}`;
-            }
-            
-            // Store QR data for tracking
-            localStorage.setItem('qr_' + quantumId, JSON.stringify({
-                data: data,
-                performance: performance,
-                timestamp: Date.now(),
-                type: currentTab
-            }));
-            
-            // Generate QR with AI-optimized colors
-            const aiColors = getAIOptimizedColors(data, performance);
-            
             try {
-                new QRCode(qrContainer, {
-                    text: qrContent,
-                    width: 512,
-                    height: 512,
-                    colorDark: aiColors.qrColor,
-                    colorLight: aiColors.bgColor,
+                qrcode = new QRCode(qrContainer, {
+                    text: content,
+                    width: 256,
+                    height: 256,
+                    colorDark: "#ffffff",
+                    colorLight: "#0a0a0a",
                     correctLevel: QRCode.CorrectLevel.H
                 });
-                
-                console.log('QR generated with content:', qrContent);
             } catch (error) {
                 console.error('Error generating QR:', error);
                 showNotification('Error generating QR code', 'error');
             }
         }
 
-        function createMessageContent(data, quantumId) {
-            // Create actual message content for QR
-            let messageContent = `🔒 SECRET MESSAGE\n━━━━━━━━━━━━━━━━━━\n\n${data.message}\n\n━━━━━━━━━━━━━━━━━━\nType: ${data.messageType}\nPrivacy: ${data.privacy}`;
-            
-            if (data.expiration !== 'never') {
-                messageContent += `\nExpires: ${data.expiration}`;
-            }
-            
-            messageContent += `\n\n📱 Created with QRFlow Pro\nCreate your own at: ${window.location.origin}`;
-            
-            return messageContent;
-        }
-
-        function createAIContent(data) {
-            return `🤖 AI-ENHANCED QR\n━━━━━━━━━━━━━━━━━━\n\nMode: ${data.mode}\nPurpose: ${data.purpose}\nTarget Performance: ${data.targetPerformance}%\n\n📱 Created with QRFlow Pro\nTry AI features at: ${window.location.origin}`;
-        }
-
-        function createGlobalContent(data) {
-            return `🌍 GLOBAL QR\n━━━━━━━━━━━━━━━━━━\n\nLanguage: ${data.language}\nCurrency: ${data.currency}\nRegion: ${data.region}\n\n📱 Created with QRFlow Pro\nGo global at: ${window.location.origin}`;
-        }
-
-        function createMobileContent(data) {
-            return `📱 MOBILE QR\n━━━━━━━━━━━━━━━━━━\n\nTemplate: ${data.template}\nCamera: ${data.camera}\nNotifications: ${data.notifications}\n\n📱 Created with QRFlow Pro\nMobile optimized at: ${window.location.origin}`;
-        }
-
-        function createBlockchainContent(data) {
-            return `🔗 BLOCKCHAIN QR\n━━━━━━━━━━━━━━━━━━\n\nType: ${data.web3Type}\nBlockchain: ${data.blockchain}\nContract: ${data.contract}\n\n📱 Created with QRFlow Pro\nWeb3 ready at: ${window.location.origin}`;
-        }
-
-        function createMarketingContent(data) {
-            return `📈 MARKETING QR\n━━━━━━━━━━━━━━━━━━\n\nCampaign: ${data.campaign}\nGoal: ${data.conversion}\nPixel: ${data.pixel}\n\n📱 Created with QRFlow Pro\nBoost marketing at: ${window.location.origin}`;
-        }
-
-        function createSecurityContent(data) {
-            return `🔐 SECURITY QR\n━━━━━━━━━━━━━━━━━━\n\nLevel: ${data.security}\nCompliance: ${data.compliance}\nAccess: ${data.access}\n\n📱 Created with QRFlow Pro\nEnterprise security at: ${window.location.origin}`;
-        }
-
-        function createInteractiveContent(data) {
-            return `🎮 INTERACTIVE QR\n━━━━━━━━━━━━━━━━━━\n\nType: ${data.interactive}\nMedia: ${data.media}\nLevel: ${data.level}\n\n📱 Created with QRFlow Pro\nInteractive at: ${window.location.origin}`;
-        }
-
-        function createBIContent(data) {
-            return `📊 BUSINESS INTEL QR\n━━━━━━━━━━━━━━━━━━\n\nFocus: ${data.focus}\nKPI: ${data.kpi}\nReports: ${data.frequency}\n\n📱 Created with QRFlow Pro\nData insights at: ${window.location.origin}`;
-        }
-
-        function createMessageURL(messageData, quantumId) {
-            // Create a special URL for secret messages
-            const messageURL = `${window.location.origin}?view_message=${quantumId}`;
-            
-            // Store the message with encryption if needed
-            let encryptedMessage = messageData.message;
-            if (messageData.privacy === 'private' && messageData.password) {
-                encryptedMessage = SecurityEngine.encryptQRData(messageData.message, 'basic') + ':' + messageData.password;
-            }
-            
-            const messagePayload = {
-                id: quantumId,
-                message: encryptedMessage,
-                type: messageData.messageType,
-                privacy: messageData.privacy,
-                expiration: calculateExpiration(messageData.expiration),
-                created: Date.now(),
-                readCount: 0
-            };
-            
-            localStorage.setItem('message_' + quantumId, JSON.stringify(messagePayload));
-            return messageURL;
-        }
-
-        function calculateExpiration(expiration) {
-            const now = Date.now();
-            switch(expiration) {
-                case '1hour': return now + (60 * 60 * 1000);
-                case '24hours': return now + (24 * 60 * 60 * 1000);
-                case '7days': return now + (7 * 24 * 60 * 60 * 1000);
-                case '30days': return now + (30 * 24 * 60 * 60 * 1000);
-                default: return null; // Never expires
+        // Analytics functions
+        function loadAnalytics() {
+            const saved = localStorage.getItem('qrflow_analytics');
+            if (saved) {
+                analytics = JSON.parse(saved);
             }
         }
 
-        function getAIOptimizedColors(data, performance) {
-            // AI color optimization based on performance and type
-            const colorPalettes = {
-                message: { qrColor: '#e74c3c', bgColor: '#ffffff' },
-                ai: { qrColor: '#667eea', bgColor: '#ffffff' },
-                global: { qrColor: '#25D366', bgColor: '#f8f9fa' },
-                mobile: { qrColor: '#4ecdc4', bgColor: '#ffffff' },
-                blockchain: { qrColor: '#ff6b6b', bgColor: '#1a1a2e' },
-                marketing: { qrColor: '#f093fb', bgColor: '#ffffff' },
-                security: { qrColor: '#128C7E', bgColor: '#ffffff' },
-                interactive: { qrColor: '#ff6b6b', bgColor: '#ffffff' },
-                bi: { qrColor: '#764ba2', bgColor: '#ffffff' }
-            };
-            
-            return colorPalettes[currentTab] || colorPalettes.message;
+        function saveAnalytics() {
+            localStorage.setItem('qrflow_analytics', JSON.stringify(analytics));
         }
 
-        function updateAnalytics(type) {
-            quantumAnalytics.aiPredictions += Math.floor(Math.random() * 5) + 1;
-            
-            switch(type) {
-                case 'message':
-                    // Track secret message creation
-                    quantumAnalytics.messageCount++;
-                    localStorage.setItem('totalMessages', quantumAnalytics.messageCount.toString());
-                    quantumAnalytics.conversions = Math.min(95, quantumAnalytics.conversions + 2);
-                    break;
-                case 'global':
-                    quantumAnalytics.globalReach += Math.floor(Math.random() * 10) + 5;
-                    break;
-                case 'mobile':
-                    quantumAnalytics.mobileUsers += Math.floor(Math.random() * 15) + 10;
-                    break;
-                case 'blockchain':
-                    quantumAnalytics.web3Tx += Math.floor(Math.random() * 3) + 1;
-                    break;
-                case 'marketing':
-                    quantumAnalytics.conversions = Math.min(95, quantumAnalytics.conversions + Math.random() * 5);
-                    break;
-                case 'security':
-                    quantumAnalytics.securityScore = Math.min(100, quantumAnalytics.securityScore + Math.random() * 5);
-                    break;
-            }
-            
-            quantumAnalytics.updateDisplay();
+        function updateAnalyticsDisplay() {
+            document.getElementById('qrGenerated').textContent = analytics.qrGenerated;
+            document.getElementById('messagesCreated').textContent = analytics.messagesCreated;
+            document.getElementById('urlsCreated').textContent = analytics.urlsCreated;
+            document.getElementById('contactsCreated').textContent = analytics.contactsCreated;
         }
 
-        function showNotification(message, type) {
-            const existingNotification = document.querySelector('.notification');
-            if (existingNotification) existingNotification.remove();
-            
+        // Notification function
+        function showNotification(message, type = 'info') {
             const notification = document.createElement('div');
             notification.className = `notification ${type}`;
             notification.innerHTML = `
@@ -1655,303 +958,11 @@
             document.body.appendChild(notification);
             
             setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.parentNode.removeChild(notification);
-                }
+                notification.style.animation = 'slideInRight 0.3s ease reverse';
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
             }, 3000);
-        }
-
-        // Message Viewer and Social Sharing
-        function checkForMessageView() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const messageId = urlParams.get('view_message');
-            
-            if (messageId) {
-                displayMessageViewer(messageId);
-            }
-        }
-
-        function displayMessageViewer(messageId) {
-            const messageData = localStorage.getItem('message_' + messageId);
-            
-            if (!messageData) {
-                showNotification('Message not found or expired', 'error');
-                return;
-            }
-
-            const message = JSON.parse(messageData);
-            
-            // Check if expired
-            if (message.expiration && Date.now() > message.expiration) {
-                showNotification('Message has expired', 'error');
-                localStorage.removeItem('message_' + messageId);
-                return;
-            }
-
-            // Check if self-destruct and already read
-            if (message.privacy === 'selfdestruct' && message.readCount > 0) {
-                showNotification('This message can only be read once', 'error');
-                return;
-            }
-
-            // Create message viewer overlay
-            const viewerOverlay = document.createElement('div');
-            viewerOverlay.style.cssText = `
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0, 0, 0, 0.95);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                z-index: 10000;
-                backdrop-filter: blur(10px);
-            `;
-
-            let decryptedMessage = message.message;
-            
-            // Handle password protection
-            if (message.privacy === 'private' && message.message.includes(':')) {
-                const password = prompt('Enter password to view this message:');
-                if (!password) {
-                    viewerOverlay.remove();
-                    return;
-                }
-                
-                try {
-                    const [encrypted, storedPassword] = message.message.split(':');
-                    if (password !== storedPassword) {
-                        showNotification('Incorrect password', 'error');
-                        viewerOverlay.remove();
-                        return;
-                    }
-                    decryptedMessage = atob(encrypted);
-                } catch (error) {
-                    showNotification('Error decrypting message', 'error');
-                    viewerOverlay.remove();
-                    return;
-                }
-            } else if (message.privacy === 'private') {
-                decryptedMessage = atob(message.message);
-            }
-
-            const messageTypeIcons = {
-                secret: '🔒',
-                note: '📝',
-                quote: '💭',
-                joke: '😄',
-                poem: '📜',
-                confession: '💭',
-                compliment: '💝',
-                anonymous: '🎭'
-            };
-
-            viewerOverlay.innerHTML = `
-                <div style="
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #25D366 75%, #128C7E 100%);
-                    border-radius: 24px;
-                    padding: 40px;
-                    max-width: 500px;
-                    width: 90%;
-                    position: relative;
-                    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-                    animation: slideInUp 0.5s ease-out;
-                ">
-                    <!-- Watermark/Signature -->
-                    <div style="
-                        position: absolute;
-                        top: 10px;
-                        right: 10px;
-                        background: rgba(255, 255, 255, 0.2);
-                        backdrop-filter: blur(10px);
-                        padding: 8px 12px;
-                        border-radius: 12px;
-                        font-size: 0.75rem;
-                        color: white;
-                        font-weight: 600;
-                        display: flex;
-                        align-items: center;
-                        gap: 5px;
-                    ">
-                        <i class="fas fa-qrcode"></i>
-                        Made with QRFlow Pro
-                    </div>
-                    
-                    <div style="text-align: center; margin-bottom: 20px;">
-                        <div style="font-size: 3rem; margin-bottom: 10px;">
-                            ${messageTypeIcons[message.type] || '💬'}
-                        </div>
-                        <h3 style="color: white; margin: 0; font-size: 1.2rem; text-transform: capitalize;">
-                            ${message.type.replace(/([A-Z])/g, ' $1').trim()} Message
-                        </h3>
-                    </div>
-                    
-                    <div style="
-                        background: rgba(255, 255, 255, 0.1);
-                        backdrop-filter: blur(10px);
-                        border: 1px solid rgba(255, 255, 255, 0.2);
-                        border-radius: 16px;
-                        padding: 20px;
-                        margin: 20px 0;
-                        min-height: 100px;
-                    ">
-                        <p style="
-                            color: white;
-                            font-size: 1.1rem;
-                            line-height: 1.6;
-                            margin: 0;
-                            word-wrap: break-word;
-                        ">
-                            ${decryptedMessage}
-                        </p>
-                    </div>
-                    
-                    <!-- Social Sharing -->
-                    <div style="margin-top: 25px;">
-                        <p style="color: rgba(255, 255, 255, 0.9); font-size: 0.9rem; margin-bottom: 15px; text-align: center;">
-                            Share this amazing platform:
-                        </p>
-                        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-                            <button onclick="shareToSocial('twitter')" style="
-                                background: #1DA1F2;
-                                color: white;
-                                border: none;
-                                padding: 10px 15px;
-                                border-radius: 8px;
-                                cursor: pointer;
-                                font-size: 0.9rem;
-                                display: flex;
-                                align-items: center;
-                                gap: 5px;
-                                transition: all 0.3s ease;
-                            " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
-                                <i class="fab fa-twitter"></i> Twitter
-                            </button>
-                            <button onclick="shareToSocial('facebook')" style="
-                                background: #4267B2;
-                                color: white;
-                                border: none;
-                                padding: 10px 15px;
-                                border-radius: 8px;
-                                cursor: pointer;
-                                font-size: 0.9rem;
-                                display: flex;
-                                align-items: center;
-                                gap: 5px;
-                                transition: all 0.3s ease;
-                            " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
-                                <i class="fab fa-facebook"></i> Facebook
-                            </button>
-                            <button onclick="shareToSocial('whatsapp')" style="
-                                background: #25D366;
-                                color: white;
-                                border: none;
-                                padding: 10px 15px;
-                                border-radius: 8px;
-                                cursor: pointer;
-                                font-size: 0.9rem;
-                                display: flex;
-                                align-items: center;
-                                gap: 5px;
-                                transition: all 0.3s ease;
-                            " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
-                                <i class="fab fa-whatsapp"></i> WhatsApp
-                            </button>
-                            <button onclick="shareToSocial('linkedin')" style="
-                                background: #0077B5;
-                                color: white;
-                                border: none;
-                                padding: 10px 15px;
-                                border-radius: 8px;
-                                cursor: pointer;
-                                font-size: 0.9rem;
-                                display: flex;
-                                align-items: center;
-                                gap: 5px;
-                                transition: all 0.3s ease;
-                            " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
-                                <i class="fab fa-linkedin"></i> LinkedIn
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <button onclick="closeMessageViewer('${messageId}')" style="
-                        background: rgba(255, 255, 255, 0.2);
-                        color: white;
-                        border: 1px solid rgba(255, 255, 255, 0.3);
-                        padding: 12px 24px;
-                        border-radius: 12px;
-                        cursor: pointer;
-                        font-size: 1rem;
-                        margin-top: 20px;
-                        width: 100%;
-                        backdrop-filter: blur(10px);
-                        transition: all 0.3s ease;
-                    " onmouseover="this.style.background='rgba(255, 255, 255, 0.3)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.2)'">
-                        <i class="fas fa-times"></i> Close Message
-                    </button>
-                </div>
-            `;
-
-            document.body.appendChild(viewerOverlay);
-
-            // Update read count for self-destruct messages
-            if (message.privacy === 'selfdestruct') {
-                message.readCount++;
-                localStorage.setItem('message_' + messageId, JSON.stringify(message));
-            }
-
-            // Track message view
-            trackMessageView(messageId);
-        }
-
-        function shareToSocial(platform) {
-            const shareText = "Check out QRFlow Pro - Create amazing QR codes with secret messages, AI features, and more!";
-            const shareUrl = window.location.origin;
-            
-            const urls = {
-                twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`,
-                facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`,
-                whatsapp: `https://wa.me/?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`,
-                linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`
-            };
-            
-            window.open(urls[platform], '_blank', 'width=600,height=400');
-        }
-
-        function closeMessageViewer(messageId) {
-            const viewer = document.querySelector('div[style*="position: fixed"]');
-            if (viewer) {
-                viewer.remove();
-            }
-            
-            // Remove self-destruct messages after viewing
-            const messageData = localStorage.getItem('message_' + messageId);
-            if (messageData) {
-                const message = JSON.parse(messageData);
-                if (message.privacy === 'selfdestruct') {
-                    localStorage.removeItem('message_' + messageId);
-                    showNotification('Self-destruct message has been deleted', 'info');
-                }
-            }
-            
-            // Clear URL parameter
-            const url = new URL(window.location);
-            url.searchParams.delete('view_message');
-            window.history.replaceState({}, document.title, url);
-        }
-
-        function trackMessageView(messageId) {
-            // Track message view analytics
-            let views = JSON.parse(localStorage.getItem('messageViews') || '{}');
-            views[messageId] = (views[messageId] || 0) + 1;
-            localStorage.setItem('messageViews', JSON.stringify(views));
-            
-            // Update analytics
-            quantumAnalytics.conversions = Math.min(95, quantumAnalytics.conversions + 1);
-            quantumAnalytics.updateDisplay();
         }
     </script>
 </body>
